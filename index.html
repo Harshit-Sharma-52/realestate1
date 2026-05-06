@@ -1,0 +1,3646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Harshit Property - Find Your Dream Home with professional real estate services. Browse properties, get expert advice, and make your dream home a reality.">
+    <meta name="keywords" content="real estate, property, dream home, housing, buy property, sell property, Harshit Property">
+    <meta name="author" content="Harshit Property">
+    <meta property="og:title" content="Harshit Property - Find Your Dream Home">
+    <meta property="og:description" content="Professional real estate services to help you find your perfect home.">
+    <meta property="og:type" content="website">
+    <title>Harshit Property - Find Your Dream Home</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- React CDN -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <style>
+        /* ===== CSS CUSTOM PROPERTIES ===== */
+        :root {
+            --primary: #e8a0bf;
+            --primary-light: #f0c4d8;
+            --primary-dark: #d481a3;
+            --bg-blush: #FDF2F8;
+            --accent-mauve: #9d4e7c;
+            --accent-mauve-light: #b86a95;
+            --text-dark: #2d2d2d;
+            --text-light: #666666;
+            --text-white: #ffffff;
+            --glass-bg: rgba(255, 255, 255, 0.25);
+            --glass-border: rgba(255, 255, 255, 0.4);
+            --shadow-light: rgba(0, 0, 0, 0.08);
+            --shadow-medium: rgba(0, 0, 0, 0.15);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --border-radius: 16px;
+            --container-width: 1400px;
+            --header-height: 80px;
+        }
+
+        /* ===== DARK MODE VARIABLES ===== */
+        [data-theme="dark"] {
+            --primary: #e8a0bf;
+            --primary-light: #f0c4d8;
+            --primary-dark: #d481a3;
+            --bg-blush: #1a1a2e;
+            --accent-mauve: #b86a95;
+            --accent-mauve-light: #d481a3;
+            --text-dark: #f0f0f0;
+            --text-light: #a0a0a0;
+            --text-white: #ffffff;
+            --glass-bg: rgba(30, 30, 50, 0.4);
+            --glass-border: rgba(255, 255, 255, 0.15);
+            --shadow-light: rgba(0, 0, 0, 0.3);
+            --shadow-medium: rgba(0, 0, 0, 0.5);
+        }
+
+        /* ===== RESET & BASE STYLES ===== */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-blush);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+            transition: var(--transition);
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: var(--transition);
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        button {
+            cursor: pointer;
+            border: none;
+            outline: none;
+            font-family: inherit;
+            transition: var(--transition);
+        }
+
+        input, textarea, select {
+            font-family: inherit;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        /* ===== CUSTOM CURSOR ===== */
+        .custom-cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary);
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.1s ease;
+            mix-blend-mode: difference;
+        }
+
+        .custom-cursor.hover {
+            transform: scale(2);
+            background: var(--accent-mauve);
+        }
+
+        /* ===== PRELOADER ===== */
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-blush);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .preloader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader {
+            width: 60px;
+            height: 60px;
+            border: 4px solid var(--primary-light);
+            border-top: 4px solid var(--accent-mauve);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* ===== GLASSMORPHISM UTILITY ===== */
+        .glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--border-radius);
+            box-shadow: 0 8px 32px var(--shadow-light);
+        }
+
+        /* ===== CONTAINER ===== */
+        .container {
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* ===== SECTION SPACING ===== */
+        section {
+            padding: 100px 0;
+        }
+
+        /* ===== TYPOGRAPHY ===== */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+            line-height: 1.2;
+            color: var(--text-dark);
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            text-align: center;
+            margin-bottom: 16px;
+            color: var(--text-dark);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-light);
+            font-size: 1.1rem;
+            margin-bottom: 60px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 32px;
+            border-radius: 50px;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--accent-mauve));
+            color: var(--text-white);
+            box-shadow: 0 4px 15px rgba(232, 160, 191, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(232, 160, 191, 0.6);
+        }
+
+        .btn-glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            color: var(--text-dark);
+        }
+
+        .btn-glass:hover {
+            background: var(--primary);
+            color: var(--text-white);
+            border-color: var(--primary);
+        }
+
+        /* ===== HEADER / NAVIGATION ===== */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        .header.scrolled {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            box-shadow: 0 4px 20px var(--shadow-light);
+        }
+
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent-mauve);
+            z-index: 1001;
+        }
+
+        .logo span {
+            color: var(--primary);
+        }
+
+        /* Hamburger Menu */
+        .hamburger {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            padding: 10px;
+            z-index: 1001;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 28px;
+            height: 3px;
+            background: var(--text-dark);
+            border-radius: 3px;
+            transition: var(--transition);
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(6px, 6px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(6px, -6px);
+        }
+
+        /* Mobile Navigation Overlay */
+        .nav-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--glass-bg);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            z-index: 999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+
+        .nav-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .nav-links {
+            list-style: none;
+            text-align: center;
+        }
+
+        .nav-links li {
+            margin: 24px 0;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s ease;
+        }
+
+        .nav-overlay.active .nav-links li {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .nav-overlay.active .nav-links li:nth-child(1) { transition-delay: 0.1s; }
+        .nav-overlay.active .nav-links li:nth-child(2) { transition-delay: 0.2s; }
+        .nav-overlay.active .nav-links li:nth-child(3) { transition-delay: 0.3s; }
+        .nav-overlay.active .nav-links li:nth-child(4) { transition-delay: 0.4s; }
+        .nav-overlay.active .nav-links li:nth-child(5) { transition-delay: 0.5s; }
+        .nav-overlay.active .nav-links li:nth-child(6) { transition-delay: 0.6s; }
+
+        .nav-links a {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Dark Mode Toggle */
+        .theme-toggle {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-dark);
+            font-size: 0.9rem;
+            z-index: 1001;
+        }
+
+        .theme-toggle i {
+            font-size: 1.1rem;
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: linear-gradient(135deg, var(--bg-blush) 0%, var(--primary-light) 100%);
+        }
+
+        .hero-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 0 24px;
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            margin-bottom: 24px;
+            color: var(--text-dark);
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero-title span {
+            color: var(--accent-mauve);
+        }
+
+        .hero-description {
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            color: var(--text-light);
+            max-width: 700px;
+            margin: 0 auto 40px;
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 1s ease 0.4s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Parallax Layer */
+        .parallax-layer {
+            position: absolute;
+            transition: transform 0.1s ease-out;
+        }
+
+        /* ===== MASONRY GRID ===== */
+        .masonry-grid {
+            display: column;
+            columns: 3;
+            column-gap: 24px;
+            padding: 0 24px;
+        }
+
+        .masonry-item {
+            break-inside: avoid;
+            margin-bottom: 24px;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .masonry-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px var(--shadow-medium);
+        }
+
+        .masonry-item img {
+            width: 100%;
+            display: block;
+        }
+
+        .masonry-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 24px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.7));
+            color: white;
+            transform: translateY(100%);
+            transition: var(--transition);
+        }
+
+        .masonry-item:hover .masonry-overlay {
+            transform: translateY(0);
+        }
+
+        /* ===== PROPERTY CARDS ===== */
+        .property-card {
+            background: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 4px 20px var(--shadow-light);
+            transition: var(--transition);
+        }
+
+        [data-theme="dark"] .property-card {
+            background: #2a2a3e;
+        }
+
+        .property-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px var(--shadow-medium);
+        }
+
+        .property-image {
+            position: relative;
+            height: 250px;
+            overflow: hidden;
+        }
+
+        .property-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .property-card:hover .property-image img {
+            transform: scale(1.1);
+        }
+
+        .property-badge {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            background: var(--primary);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .property-content {
+            padding: 24px;
+        }
+
+        .property-price {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-mauve);
+            margin-bottom: 8px;
+        }
+
+        .property-title {
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+        }
+
+        .property-location {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .property-features {
+            display: flex;
+            gap: 20px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(0,0,0,0.1);
+        }
+
+        [data-theme="dark"] .property-features {
+            border-top-color: rgba(255,255,255,0.1);
+        }
+
+        .property-feature {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .property-feature i {
+            color: var(--primary);
+        }
+
+        /* ===== STATISTICS COUNTER ===== */
+        .stats-section {
+            background: linear-gradient(135deg, var(--accent-mauve), var(--primary));
+            padding: 80px 0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            text-align: center;
+        }
+
+        .stat-item {
+            color: white;
+        }
+
+        .stat-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        /* ===== TESTIMONIAL CAROUSEL ===== */
+        .testimonial-carousel {
+            position: relative;
+            overflow: hidden;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .testimonial-track {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .testimonial-slide {
+            min-width: 100%;
+            padding: 40px;
+        }
+
+        .testimonial-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--border-radius);
+            padding: 40px;
+            text-align: center;
+        }
+
+        .testimonial-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            overflow: hidden;
+            border: 3px solid var(--primary);
+        }
+
+        .testimonial-text {
+            font-size: 1.1rem;
+            color: var(--text-dark);
+            font-style: italic;
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .testimonial-author {
+            font-weight: 600;
+            color: var(--accent-mauve);
+        }
+
+        .testimonial-role {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-dark);
+            font-size: 1.2rem;
+            z-index: 10;
+        }
+
+        .carousel-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .carousel-prev { left: 10px; }
+        .carousel-next { right: 10px; }
+
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 30px;
+        }
+
+        .carousel-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--primary-light);
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .carousel-dot.active {
+            background: var(--accent-mauve);
+            transform: scale(1.2);
+        }
+
+        /* ===== FAQ ACCORDION ===== */
+        .faq-item {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--border-radius);
+            margin-bottom: 16px;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 24px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 500;
+            color: var(--text-dark);
+            background: none;
+            width: 100%;
+            text-align: left;
+            font-size: 1.1rem;
+        }
+
+        .faq-question i {
+            color: var(--primary);
+            transition: var(--transition);
+        }
+
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+        }
+
+        .faq-answer-content {
+            padding: 0 24px 24px;
+            color: var(--text-light);
+            line-height: 1.8;
+        }
+
+        /* ===== CONTACT FORM ===== */
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--border-radius);
+            padding: 40px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+
+        .form-input, .form-textarea {
+            width: 100%;
+            padding: 14px 20px;
+            border: 2px solid rgba(232, 160, 191, 0.3);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.5);
+            color: var(--text-dark);
+            font-size: 1rem;
+        }
+
+        [data-theme="dark"] .form-input,
+        [data-theme="dark"] .form-textarea {
+            background: rgba(30, 30, 50, 0.5);
+        }
+
+        .form-input:focus, .form-textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(232, 160, 191, 0.2);
+        }
+
+        .form-input.error {
+            border-color: #e74c3c;
+        }
+
+        .form-error {
+            color: #e74c3c;
+            font-size: 0.85rem;
+            margin-top: 6px;
+            display: none;
+        }
+
+        .form-error.show {
+            display: block;
+        }
+
+        .form-textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        /* ===== NEWSLETTER FORM ===== */
+        .newsletter-section {
+            background: linear-gradient(135deg, var(--primary-light), var(--bg-blush));
+            padding: 80px 0;
+        }
+
+        .newsletter-content {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 12px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .newsletter-input {
+            flex: 1;
+            min-width: 280px;
+            padding: 14px 24px;
+            border: 2px solid rgba(232, 160, 191, 0.3);
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.7);
+            font-size: 1rem;
+            color: var(--text-dark);
+        }
+
+        [data-theme="dark"] .newsletter-input {
+            background: rgba(30, 30, 50, 0.7);
+        }
+
+        .newsletter-input:focus {
+            border-color: var(--primary);
+        }
+
+        /* ===== LIGHTBOX GALLERY ===== */
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+
+        .lightbox.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .lightbox-img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 8px;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+        }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            font-size: 2rem;
+            padding: 15px 20px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .lightbox-prev { left: 30px; }
+        .lightbox-next { right: 30px; }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: linear-gradient(135deg, #2a2a3e, #1a1a2e);
+            color: white;
+            padding: 80px 0 30px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 24px;
+            color: white;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+            padding-left: 8px;
+        }
+
+        .footer-contact-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .footer-contact-item i {
+            color: var(--primary);
+            width: 20px;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .social-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+
+        .social-icon:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+        }
+
+        /* ===== BACK TO TOP BUTTON ===== */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--accent-mauve));
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 15px rgba(232, 160, 191, 0.4);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: var(--transition);
+            z-index: 999;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(232, 160, 191, 0.6);
+        }
+
+        /* ===== STICKY CTA BUTTON ===== */
+        .sticky-cta {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background: linear-gradient(135deg, var(--accent-mauve), var(--primary));
+            color: white;
+            padding: 16px 28px;
+            border-radius: 50px;
+            box-shadow: 0 4px 20px rgba(157, 78, 124, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+            z-index: 999;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+
+        .sticky-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(157, 78, 124, 0.6);
+            color: white;
+        }
+
+        /* ===== SCROLL ANIMATIONS ===== */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ===== GOOGLE MAPS EMBED ===== */
+        .map-container {
+            width: 100%;
+            height: 400px;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 4px 20px var(--shadow-light);
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* ===== RESPONSIVE DESIGN ===== */
+        @media (max-width: 1024px) {
+            .masonry-grid {
+                columns: 2;
+            }
+        }
+
+        @media (max-width: 768px) {
+            :root {
+                --header-height: 70px;
+            }
+
+            section {
+                padding: 60px 0;
+            }
+
+            .nav-links a {
+                font-size: 1.8rem;
+            }
+
+            .masonry-grid {
+                columns: 1;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .newsletter-form {
+                flex-direction: column;
+            }
+
+            .newsletter-input {
+                min-width: 100%;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .sticky-cta {
+                left: 50%;
+                transform: translateX(-50%);
+                bottom: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-form {
+                padding: 24px;
+            }
+
+            .testimonial-card {
+                padding: 24px;
+            }
+        }
+
+        /* ===== PAGE SECTIONS ===== */
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* ===== NAVBAR ACTIVE STATE ===== */
+        .nav-links a.active {
+            color: var(--primary);
+        }
+
+        .nav-links a.active::after {
+            width: 100% !important;
+        }
+
+        /* ===== NAV OVERLAY IMPROVEMENTS ===== */
+        .nav-overlay-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            padding: 40px;
+        }
+
+        .overlay-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-mauve);
+            margin-bottom: 20px;
+        }
+
+        .overlay-logo span {
+            color: var(--primary);
+        }
+
+        .overlay-tagline {
+            color: var(--text-light);
+            margin-bottom: 60px;
+            font-size: 1.1rem;
+        }
+
+        .overlay-social {
+            position: absolute;
+            bottom: 60px;
+            display: flex;
+            gap: 20px;
+        }
+
+        .overlay-social .social-icon {
+            width: 50px;
+            height: 50px;
+            font-size: 1.3rem;
+        }
+
+        /* ===== WHATSAPP WIDGET ===== */
+        .whatsapp-widget {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            z-index: 998;
+        }
+
+        .whatsapp-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #25D366;
+            color: white;
+            border: none;
+            font-size: 1.8rem;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .whatsapp-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .whatsapp-popup {
+            position: absolute;
+            bottom: 70px;
+            right: 0;
+            width: 300px;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: 0 8px 30px var(--shadow-medium);
+            padding: 20px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: var(--transition);
+        }
+
+        [data-theme="dark"] .whatsapp-popup {
+            background: #2a2a3e;
+        }
+
+        .whatsapp-popup.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .whatsapp-popup p {
+            margin-bottom: 15px;
+            color: var(--text-dark);
+            font-size: 0.95rem;
+        }
+
+        .whatsapp-popup a {
+            display: block;
+            text-align: center;
+            width: 100%;
+        }
+
+        /* ===== PROPERTY WISHLIST ===== */
+        .wishlist-btn {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: #ccc;
+            cursor: pointer;
+            transition: var(--transition);
+            z-index: 2;
+        }
+
+        .wishlist-btn:hover {
+            color: #e74c3c;
+            transform: scale(1.1);
+        }
+
+        .wishlist-btn.active {
+            color: #e74c3c;
+        }
+
+        .wishlist-btn.active i {
+            font-weight: 900;
+        }
+
+        /* ===== PREMIUM PROPERTY FEATURES ===== */
+        .pro-badge {
+            background: linear-gradient(135deg, var(--accent-mauve), var(--primary)) !important;
+        }
+
+        .premium-features {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .premium-btn {
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(232, 160, 191, 0.1);
+            border: 1px solid rgba(232, 160, 191, 0.3);
+            color: var(--accent-mauve);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .premium-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* ===== DREAM HOME QUIZ ===== */
+        .quiz-section {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--border-radius);
+            padding: 40px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .quiz-question {
+            margin-bottom: 30px;
+        }
+
+        .quiz-question h3 {
+            margin-bottom: 16px;
+            color: var(--text-dark);
+        }
+
+        .quiz-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .quiz-option {
+            padding: 15px;
+            border: 2px solid rgba(232, 160, 191, 0.3);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+            color: var(--text-dark);
+        }
+
+        .quiz-option:hover {
+            border-color: var(--primary);
+            background: rgba(232, 160, 191, 0.1);
+        }
+
+        .quiz-option.selected {
+            border-color: var(--primary);
+            background: rgba(232, 160, 191, 0.2);
+            font-weight: 500;
+        }
+
+        /* ===== MARKET TRENDS ===== */
+        .market-trends {
+            display: flex;
+            gap: 30px;
+            align-items: flex-end;
+            height: 300px;
+            margin-top: 40px;
+            padding: 0 20px;
+        }
+
+        .trend-bar {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .bar {
+            width: 100%;
+            max-width: 80px;
+            background: linear-gradient(to top, var(--primary), var(--accent-mauve));
+            border-radius: 8px 8px 0 0;
+            transition: height 1.5s ease;
+            height: 0;
+        }
+
+        .bar.animated {
+            height: var(--bar-height);
+        }
+
+        .bar-label {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            text-align: center;
+        }
+
+        .bar-value {
+            font-weight: 600;
+            color: var(--accent-mauve);
+            font-size: 0.9rem;
+        }
+
+        /* ===== AGENT CARDS ===== */
+        .agent-card {
+            text-align: center;
+            padding: 30px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+
+        .agent-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px var(--shadow-medium);
+        }
+
+        .agent-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            overflow: hidden;
+            border: 3px solid var(--primary);
+        }
+
+        .agent-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .agent-name {
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+        }
+
+        .agent-title {
+            color: var(--accent-mauve);
+            margin-bottom: 16px;
+            font-size: 0.95rem;
+        }
+
+        .agent-bio {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* ===== BLOG CARDS ===== */
+        .blog-card {
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 4px 20px var(--shadow-light);
+            transition: var(--transition);
+            background: white;
+        }
+
+        [data-theme="dark"] .blog-card {
+            background: #2a2a3e;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px var(--shadow-medium);
+        }
+
+        .blog-image {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .blog-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .blog-card:hover .blog-image img {
+            transform: scale(1.1);
+        }
+
+        .blog-content {
+            padding: 24px;
+        }
+
+        .blog-date {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-bottom: 8px;
+        }
+
+        .blog-title {
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+            color: var(--text-dark);
+        }
+
+        .blog-excerpt {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        /* ===== NEIGHBORHOOD CARDS ===== */
+        .neighborhood-card {
+            position: relative;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            height: 300px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .neighborhood-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px var(--shadow-medium);
+        }
+
+        .neighborhood-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .neighborhood-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 24px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: white;
+        }
+
+        .neighborhood-name {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+        }
+
+        .neighborhood-price {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* ===== PRO LISTINGS PAGE ===== */
+        .pro-property-specs {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(0,0,0,0.1);
+        }
+
+        [data-theme="dark"] .pro-property-specs {
+            border-top-color: rgba(255,255,255,0.1);
+        }
+
+        .pro-spec {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .pro-spec i {
+            color: var(--primary);
+        }
+
+        /* ===== RESPONSIVE UPDATES ===== */
+        @media (max-width: 768px) {
+            .overlay-social {
+                bottom: 40px;
+            }
+
+            .whatsapp-widget {
+                bottom: 90px;
+                right: 20px;
+            }
+
+            .whatsapp-popup {
+                width: 260px;
+            }
+
+            .market-trends {
+                gap: 15px;
+                height: 250px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .quiz-options {
+                grid-template-columns: 1fr;
+            }
+
+            .premium-features {
+                flex-direction: column;
+            }
+        }
+        .about-hero {
+            padding-top: calc(var(--header-height) + 60px);
+            background: linear-gradient(135deg, var(--bg-blush) 0%, var(--primary-light) 100%);
+            padding-bottom: 60px;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .about-image {
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 8px 30px var(--shadow-medium);
+        }
+
+        .about-text h2 {
+            margin-bottom: 20px;
+        }
+
+        .about-text p {
+            margin-bottom: 16px;
+            color: var(--text-light);
+            line-height: 1.8;
+        }
+
+        /* ===== SERVICES PAGE ===== */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .service-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--border-radius);
+            padding: 40px 30px;
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px var(--shadow-medium);
+        }
+
+        .service-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 24px;
+            background: linear-gradient(135deg, var(--primary), var(--accent-mauve));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+        }
+
+        .service-title {
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+            color: var(--text-dark);
+        }
+
+        .service-description {
+            color: var(--text-light);
+            line-height: 1.8;
+        }
+
+        /* ===== PROPERTIES PAGE ===== */
+        .properties-filter {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 10px 24px;
+            border-radius: 50px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            color: var(--text-dark);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .properties-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+
+            .properties-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Preloader -->
+    <div id="preloader" class="preloader">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Custom Cursor -->
+    <div id="custom-cursor" class="custom-cursor"></div>
+
+    <!-- Root Element for React -->
+    <div id="root"></div>
+
+    <!-- React Application -->
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        // ===== PARTICLE CANVAS COMPONENT =====
+        const ParticleCanvas = () => {
+            const canvasRef = useRef(null);
+
+            useEffect(() => {
+                const canvas = canvasRef.current;
+                const ctx = canvas.getContext('2d');
+                let animationId;
+                let particles = [];
+
+                // Set canvas size
+                const resizeCanvas = () => {
+                    canvas.width = window.innerWidth;
+                    canvas.height = window.innerHeight;
+                };
+                resizeCanvas();
+                window.addEventListener('resize', resizeCanvas);
+
+                // Particle class
+                class Particle {
+                    constructor() {
+                        this.x = Math.random() * canvas.width;
+                        this.y = Math.random() * canvas.height;
+                        this.size = Math.random() * 3 + 1;
+                        this.speedX = Math.random() * 1 - 0.5;
+                        this.speedY = Math.random() * 1 - 0.5;
+                        this.opacity = Math.random() * 0.5 + 0.2;
+                    }
+
+                    update() {
+                        this.x += this.speedX;
+                        this.y += this.speedY;
+
+                        if (this.x > canvas.width) this.x = 0;
+                        if (this.x < 0) this.x = canvas.width;
+                        if (this.y > canvas.height) this.y = 0;
+                        if (this.y < 0) this.y = canvas.height;
+                    }
+
+                    draw() {
+                        ctx.fillStyle = `rgba(232, 160, 191, ${this.opacity})`;
+                        ctx.beginPath();
+                        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+                }
+
+                // Initialize particles
+                for (let i = 0; i < 80; i++) {
+                    particles.push(new Particle());
+                }
+
+                // Animation loop
+                const animate = () => {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    particles.forEach(particle => {
+                        particle.update();
+                        particle.draw();
+                    });
+                    animationId = requestAnimationFrame(animate);
+                };
+                animate();
+
+                return () => {
+                    cancelAnimationFrame(animationId);
+                    window.removeEventListener('resize', resizeCanvas);
+                };
+            }, []);
+
+            return <canvas ref={canvasRef} className="hero-canvas" />;
+        };
+
+        // ===== HEADER COMPONENT =====
+        const Header = ({ isMenuOpen, setIsMenuOpen, theme, toggleTheme, currentPage, setCurrentPage }) => {
+            const [scrolled, setScrolled] = useState(false);
+
+            useEffect(() => {
+                const handleScroll = () => {
+                    setScrolled(window.scrollY > 50);
+                };
+                window.addEventListener('scroll', handleScroll);
+                return () => window.removeEventListener('scroll', handleScroll);
+            }, []);
+
+            const navItems = [
+                { id: 'home', label: 'Home' },
+                { id: 'about', label: 'About' },
+                { id: 'properties', label: 'Properties' },
+                { id: 'pro-listings', label: 'Pro Listings' },
+                { id: 'services', label: 'Services' },
+                { id: 'agents', label: 'Agents' },
+                { id: 'neighborhoods', label: 'Neighborhoods' },
+                { id: 'blog', label: 'Blog' },
+                { id: 'contact', label: 'Contact' }
+            ];
+
+            return (
+                <header className={`header ${scrolled ? 'scrolled' : ''}`}>
+                    <div className="container">
+                        <a href="#" className="logo" onClick={(e) => { e.preventDefault(); setCurrentPage('home'); }}>
+                            Harshit <span>Property</span>
+                        </a>
+
+                        <button 
+                            className={`hamburger ${isMenuOpen ? 'active' : ''}`}
+                            onClick={() => setIsMenuOpen(!isMenuOpen)}
+                            aria-label="Toggle navigation menu"
+                        >
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </button>
+
+                        <button className="theme-toggle" onClick={toggleTheme} aria-label="Toggle dark mode">
+                            <i className={theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon'}></i>
+                            <span>{theme === 'dark' ? 'Light' : 'Dark'}</span>
+                        </button>
+
+                        {/* Navigation Overlay */}
+                        <div className={`nav-overlay ${isMenuOpen ? 'active' : ''}`}>
+                            <div className="nav-overlay-content">
+                                <div className="overlay-logo">Harshit <span>Property</span></div>
+                                <p className="overlay-tagline">Find Your Dream Home</p>
+                                <ul className="nav-links">
+                                    {navItems.map(item => (
+                                        <li key={item.id}>
+                                            <a 
+                                                href="#" 
+                                                className={currentPage === item.id ? 'active' : ''}
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    setCurrentPage(item.id);
+                                                    setIsMenuOpen(false);
+                                                }}
+                                            >
+                                                {item.label}
+                                            </a>
+                                        </li>
+                                    ))}
+                                </ul>
+                                <div className="overlay-social">
+                                    <a href="#" className="social-icon" aria-label="Facebook">
+                                        <i className="fab fa-facebook-f"></i>
+                                    </a>
+                                    <a href="#" className="social-icon" aria-label="Instagram">
+                                        <i className="fab fa-instagram"></i>
+                                    </a>
+                                    <a href="#" className="social-icon" aria-label="Twitter">
+                                        <i className="fab fa-twitter"></i>
+                                    </a>
+                                    <a href="#" className="social-icon" aria-label="LinkedIn">
+                                        <i className="fab fa-linkedin-in"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+            );
+        };
+
+        // ===== HERO SECTION COMPONENT =====
+        const HeroSection = () => {
+            return (
+                <section className="hero" id="home">
+                    <ParticleCanvas />
+                    <div className="hero-content">
+                        <h1 className="hero-title">
+                            Find Your <span>Dream Home</span>
+                        </h1>
+                        <p className="hero-description">
+                            Discover exceptional properties with Harshit Property. We make finding your perfect home a seamless and memorable experience with our expert guidance and curated listings.
+                        </p>
+                        <div className="hero-buttons">
+                            <a href="#" className="btn btn-primary" onClick={(e) => { e.preventDefault(); }}>
+                                <i className="fas fa-search"></i> Browse Properties
+                            </a>
+                            <a href="#" className="btn btn-glass" onClick={(e) => { e.preventDefault(); }}>
+                                <i className="fas fa-play-circle"></i> Watch Video
+                            </a>
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        // ===== STATS SECTION COMPONENT =====
+        const StatsSection = () => {
+            const [counters, setCounters] = useState({
+                properties: 0,
+                clients: 0,
+                years: 0,
+                agents: 0
+            });
+
+            useEffect(() => {
+                const targets = {
+                    properties: 500,
+                    clients: 1000,
+                    years: 15,
+                    agents: 50
+                };
+
+                const duration = 2000;
+                const steps = 60;
+                const interval = duration / steps;
+
+                let step = 0;
+                const timer = setInterval(() => {
+                    step++;
+                    const progress = step / steps;
+                    const easeOut = 1 - Math.pow(1 - progress, 3);
+
+                    setCounters({
+                        properties: Math.floor(targets.properties * easeOut),
+                        clients: Math.floor(targets.clients * easeOut),
+                        years: Math.floor(targets.years * easeOut),
+                        agents: Math.floor(targets.agents * easeOut)
+                    });
+
+                    if (step >= steps) {
+                        clearInterval(timer);
+                        setCounters(targets);
+                    }
+                }, interval);
+
+                return () => clearInterval(timer);
+            }, []);
+
+            return (
+                <section className="stats-section">
+                    <div className="container">
+                        <div className="stats-grid">
+                            <div className="stat-item fade-in">
+                                <div className="stat-number">{counters.properties}+</div>
+                                <div className="stat-label">Premium Properties</div>
+                            </div>
+                            <div className="stat-item fade-in">
+                                <div className="stat-number">{counters.clients}+</div>
+                                <div className="stat-label">Happy Clients</div>
+                            </div>
+                            <div className="stat-item fade-in">
+                                <div className="stat-number">{counters.years}+</div>
+                                <div className="stat-label">Years Experience</div>
+                            </div>
+                            <div className="stat-item fade-in">
+                                <div className="stat-number">{counters.agents}+</div>
+                                <div className="stat-label">Expert Agents</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        // ===== FEATURED PROPERTIES COMPONENT =====
+        const FeaturedProperties = () => {
+            const properties = [
+                {
+                    id: 1,
+                    title: "Luxury Villa in Beverly Hills",
+                    price: "$2,850,000",
+                    location: "Beverly Hills, CA",
+                    beds: 5,
+                    baths: 4,
+                    sqft: "4,200",
+                    image: "https://picsum.photos/seed/prop1/600/400",
+                    badge: "Featured"
+                },
+                {
+                    id: 2,
+                    title: "Modern Apartment Downtown",
+                    price: "$750,000",
+                    location: "New York, NY",
+                    beds: 3,
+                    baths: 2,
+                    sqft: "1,800",
+                    image: "https://picsum.photos/seed/prop2/600/400",
+                    badge: "New"
+                },
+                {
+                    id: 3,
+                    title: "Cozy Family Home",
+                    price: "$1,200,000",
+                    location: "Austin, TX",
+                    beds: 4,
+                    baths: 3,
+                    sqft: "2,800",
+                    image: "https://picsum.photos/seed/prop3/600/400",
+                    badge: "Sale"
+                },
+                {
+                    id: 4,
+                    title: "Waterfront Penthouse",
+                    price: "$3,500,000",
+                    location: "Miami, FL",
+                    beds: 6,
+                    baths: 5,
+                    sqft: "5,000",
+                    image: "https://picsum.photos/seed/prop4/600/400",
+                    badge: "Luxury"
+                },
+                {
+                    id: 5,
+                    title: "Suburban Dream House",
+                    price: "$950,000",
+                    location: "Seattle, WA",
+                    beds: 4,
+                    baths: 3,
+                    sqft: "3,000",
+                    image: "https://picsum.photos/seed/prop5/600/400",
+                    badge: "Popular"
+                },
+                {
+                    id: 6,
+                    title: "Mountain View Estate",
+                    price: "$1,800,000",
+                    location: "Denver, CO",
+                    beds: 5,
+                    baths: 4,
+                    sqft: "4,500",
+                    image: "https://picsum.photos/seed/prop6/600/400",
+                    badge: "Exclusive"
+                }
+            ];
+
+            return (
+                <section id="properties" style={{ paddingTop: '100px' }}>
+                    <div className="container">
+                        <h2 className="section-title fade-in">Featured Properties</h2>
+                        <p className="section-subtitle fade-in">
+                            Explore our handpicked selection of premium properties that match your lifestyle and preferences
+                        </p>
+                        <div className="properties-grid">
+                            {properties.map((property, index) => (
+                                <div key={property.id} className="property-card fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
+                                    <div className="property-image">
+                                        <img src={property.image} alt={property.title} loading="lazy" />
+                                        <span className="property-badge">{property.badge}</span>
+                                    </div>
+                                    <div className="property-content">
+                                        <div className="property-price">{property.price}</div>
+                                        <h3 className="property-title">{property.title}</h3>
+                                        <div className="property-location">
+                                            <i className="fas fa-map-marker-alt"></i>
+                                            {property.location}
+                                        </div>
+                                        <div className="property-features">
+                                            <div className="property-feature">
+                                                <i className="fas fa-bed"></i> {property.beds} Beds
+                                            </div>
+                                            <div className="property-feature">
+                                                <i className="fas fa-bath"></i> {property.baths} Baths
+                                            </div>
+                                            <div className="property-feature">
+                                                <i className="fas fa-ruler-combined"></i> {property.sqft} sqft
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        // ===== TESTIMONIALS COMPONENT =====
+        const TestimonialCarousel = () => {
+            const [currentSlide, setCurrentSlide] = useState(0);
+
+            const testimonials = [
+                {
+                    name: "Sarah Johnson",
+                    role: "Homeowner",
+                    text: "Harshit Property made our dream of owning a home a reality. Their team was professional, knowledgeable, and guided us through every step of the process. Highly recommended!",
+                    avatar: "https://picsum.photos/seed/avatar1/100/100"
+                },
+                {
+                    name: "Michael Chen",
+                    role: "Property Investor",
+                    text: "I've worked with many real estate agencies, but Harshit Property stands out for their attention to detail and market expertise. They helped me build a profitable portfolio.",
+                    avatar: "https://picsum.photos/seed/avatar2/100/100"
+                },
+                {
+                    name: "Emily Rodriguez",
+                    role: "First-time Buyer",
+                    text: "As a first-time homebuyer, I was nervous about the process. The team at Harshit Property was patient, informative, and found us the perfect starter home within our budget.",
+                    avatar: "https://picsum.photos/seed/avatar3/100/100"
+                }
+            ];
+
+            useEffect(() => {
+                const timer = setInterval(() => {
+                    setCurrentSlide((prev) => (prev + 1) % testimonials.length);
+                }, 5000);
+                return () => clearInterval(timer);
+            }, []);
+
+            return (
+                <section style={{ padding: '100px 0', background: 'var(--bg-blush)' }}>
+                    <div className="container">
+                        <h2 className="section-title fade-in">What Our Clients Say</h2>
+                        <p className="section-subtitle fade-in">
+                            Read testimonials from our satisfied clients who found their dream homes with us
+                        </p>
+                        <div className="testimonial-carousel">
+                            <div 
+                                className="testimonial-track" 
+                                style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+                            >
+                                {testimonials.map((testimonial, index) => (
+                                    <div key={index} className="testimonial-slide">
+                                        <div className="testimonial-card">
+                                            <div className="testimonial-avatar">
+                                                <img src={testimonial.avatar} alt={testimonial.name} />
+                                            </div>
+                                            <p className="testimonial-text">"{testimonial.text}"</p>
+                                            <div className="testimonial-author">{testimonial.name}</div>
+                                            <div className="testimonial-role">{testimonial.role}</div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                            <button 
+                                className="carousel-btn carousel-prev" 
+                                onClick={() => setCurrentSlide((prev) => (prev - 1 + testimonials.length) % testimonials.length)}
+                                aria-label="Previous testimonial"
+                            >
+                                <i className="fas fa-chevron-left"></i>
+                            </button>
+                            <button 
+                                className="carousel-btn carousel-next" 
+                                onClick={() => setCurrentSlide((prev) => (prev + 1) % testimonials.length)}
+                                aria-label="Next testimonial"
+                            >
+                                <i className="fas fa-chevron-right"></i>
+                            </button>
+                            <div className="carousel-dots">
+                                {testimonials.map((_, index) => (
+                                    <button
+                                        key={index}
+                                        className={`carousel-dot ${index === currentSlide ? 'active' : ''}`}
+                                        onClick={() => setCurrentSlide(index)}
+                                        aria-label={`Go to testimonial ${index + 1}`}
+                                    />
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        // ===== FAQ COMPONENT =====
+        const FAQSection = () => {
+            const [activeIndex, setActiveIndex] = useState(null);
+
+            const faqs = [
+                {
+                    question: "How do I start the process of buying a home?",
+                    answer: "Starting your home buying journey is easy! Simply contact us to schedule a consultation. We'll discuss your needs, budget, and preferences, then guide you through financing options, property searches, and the entire purchase process."
+                },
+                {
+                    question: "What areas does Harshit Property serve?",
+                    answer: "We serve major metropolitan areas across the country, including Beverly Hills, New York, Austin, Miami, Seattle, Denver, and surrounding suburbs. Contact us to confirm if we cover your specific area of interest."
+                },
+                {
+                    question: "How long does it typically take to buy a home?",
+                    answer: "The timeline varies depending on market conditions and your specific requirements. On average, the process takes 30-60 days from offer acceptance to closing. Our team works efficiently to minimize delays while ensuring all due diligence is completed."
+                },
+                {
+                    question: "Do you help with selling properties too?",
+                    answer: "Absolutely! We provide comprehensive selling services including property valuation, marketing, staging advice, negotiation, and closing support. Our goal is to help you get the best possible price for your property."
+                },
+                {
+                    question: "What makes Harshit Property different from other agencies?",
+                    answer: "Our personalized approach sets us apart. We take time to understand your unique needs, provide expert market insights, offer transparent communication throughout the process, and maintain long-term relationships with our clients even after the transaction is complete."
+                }
+            ];
+
+            return (
+                <section style={{ padding: '100px 0' }}>
+                    <div className="container">
+                        <h2 className="section-title fade-in">Frequently Asked Questions</h2>
+                        <p className="section-subtitle fade-in">
+                            Find answers to common questions about our real estate services
+                        </p>
+                        <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+                            {faqs.map((faq, index) => (
+                                <div 
+                                    key={index} 
+                                    className={`faq-item ${activeIndex === index ? 'active' : ''}`}
+                                >
+                                    <button 
+                                        className="faq-question"
+                                        onClick={() => setActiveIndex(activeIndex === index ? null : index)}
+                                        aria-expanded={activeIndex === index}
+                                    >
+                                        {faq.question}
+                                        <i className="fas fa-chevron-down"></i>
+                                    </button>
+                                    <div className="faq-answer">
+                                        <div className="faq-answer-content">
+                                            {faq.answer}
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        // ===== CONTACT FORM COMPONENT =====
+        const ContactSection = () => {
+            const [formData, setFormData] = useState({
+                name: '',
+                email: '',
+                phone: '',
+                message: ''
+            });
+            const [errors, setErrors] = useState({});
+            const [submitted, setSubmitted] = useState(false);
+
+            const validate = () => {
+                const newErrors = {};
+                if (!formData.name.trim()) newErrors.name = 'Name is required';
+                if (!formData.email.trim()) {
+                    newErrors.email = 'Email is required';
+                } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+                    newErrors.email = 'Email is invalid';
+                }
+                if (!formData.message.trim()) newErrors.message = 'Message is required';
+                return newErrors;
+            };
+
+            const handleSubmit = (e) => {
+                e.preventDefault();
+                const newErrors = validate();
+                if (Object.keys(newErrors).length === 0) {
+                    setSubmitted(true);
+                    setTimeout(() => {
+                        setSubmitted(false);
+                        setFormData({ name: '', email: '', phone: '', message: '' });
+                    }, 3000);
+                } else {
+                    setErrors(newErrors);
+                }
+            };
+
+            const handleChange = (e) => {
+                setFormData({ ...formData, [e.target.name]: e.target.value });
+                if (errors[e.target.name]) {
+                    setErrors({ ...errors, [e.target.name]: '' });
+                }
+            };
+
+            return (
+                <section id="contact" style={{ paddingTop: '100px' }}>
+                    <div className="container">
+                        <h2 className="section-title fade-in">Get in Touch</h2>
+                        <p className="section-subtitle fade-in">
+                            Have questions or ready to find your dream home? Reach out to us today
+                        </p>
+                        {submitted ? (
+                            <div style={{ 
+                                textAlign: 'center', 
+                                padding: '40px', 
+                                background: 'var(--glass-bg)', 
+                                backdropFilter: 'blur(12px)',
+                                borderRadius: 'var(--border-radius)',
+                                color: 'var(--accent-mauve)'
+                            }}>
+                                <i className="fas fa-check-circle" style={{ fontSize: '3rem', marginBottom: '16px' }}></i>
+                                <h3>Thank you for contacting us!</h3>
+                                <p>We'll get back to you within 24 hours.</p>
+                            </div>
+                        ) : (
+                            <form className="contact-form fade-in" onSubmit={handleSubmit}>
+                                <div className="form-group">
+                                    <label className="form-label" htmlFor="name">Full Name *</label>
+                                    <input
+                                        type="text"
+                                        id="name"
+                                        name="name"
+                                        className={`form-input ${errors.name ? 'error' : ''}`}
+                                        placeholder="Enter your full name"
+                                        value={formData.name}
+                                        onChange={handleChange}
+                                        aria-required="true"
+                                    />
+                                    {errors.name && <div className="form-error show">{errors.name}</div>}
+                                </div>
+                                <div className="form-group">
+                                    <label className="form-label" htmlFor="email">Email Address *</label>
+                                    <input
+                                        type="email"
+                                        id="email"
+                                        name="email"
+                                        className={`form-input ${errors.email ? 'error' : ''}`}
+                                        placeholder="Enter your email address"
+                                        value={formData.email}
+                                        onChange={handleChange}
+                                        aria-required="true"
+                                    />
+                                    {errors.email && <div className="form-error show">{errors.email}</div>}
+                                </div>
+                                <div className="form-group">
+                                    <label className="form-label" htmlFor="phone">Phone Number</label>
+                                    <input
+                                        type="tel"
+                                        id="phone"
+                                        name="phone"
+                                        className="form-input"
+                                        placeholder="Enter your phone number (optional)"
+                                        value={formData.phone}
+                                        onChange={handleChange}
+                                    />
+                                </div>
+                                <div className="form-group">
+                                    <label className="form-label" htmlFor="message">Message *</label>
+                                    <textarea
+                                        id="message"
+                                        name="message"
+                                        className={`form-textarea ${errors.message ? 'error' : ''}`}
+                                        placeholder="Tell us about your property needs..."
+                                        value={formData.message}
+                                        onChange={handleChange}
+                                        aria-required="true"
+                                    ></textarea>
+                                    {errors.message && <div className="form-error show">{errors.message}</div>}
+                                </div>
+                                <button type="submit" className="btn btn-primary" style={{ width: '100%', justifyContent: 'center' }}>
+                                    <i className="fas fa-paper-plane"></i> Send Message
+                                </button>
+                            </form>
+                        )}
+                    </div>
+                </section>
+            );
+        };
+
+        // ===== NEWSLETTER COMPONENT =====
+        const NewsletterSection = () => {
+            const [email, setEmail] = useState('');
+            const [subscribed, setSubscribed] = useState(false);
+
+            const handleSubmit = (e) => {
+                e.preventDefault();
+                if (email) {
+                    setSubscribed(true);
+                    setTimeout(() => {
+                        setSubscribed(false);
+                        setEmail('');
+                    }, 3000);
+                }
+            };
+
+            return (
+                <section className="newsletter-section">
+                    <div className="container">
+                        <div className="newsletter-content fade-in">
+                            <h2 className="section-title">Stay Updated</h2>
+                            <p style={{ color: 'var(--text-light)', marginBottom: '20px' }}>
+                                Subscribe to our newsletter for the latest property listings, market insights, and exclusive offers
+                            </p>
+                            {subscribed ? (
+                                <div style={{ color: 'var(--accent-mauve)', fontWeight: '600' }}>
+                                    <i className="fas fa-check"></i> Successfully subscribed!
+                                </div>
+                            ) : (
+                                <form className="newsletter-form" onSubmit={handleSubmit}>
+                                    <input
+                                        type="email"
+                                        className="newsletter-input"
+                                        placeholder="Enter your email address"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        required
+                                        aria-label="Email for newsletter"
+                                    />
+                                    <button type="submit" className="btn btn-primary">
+                                        <i className="fas fa-envelope"></i> Subscribe
+                                    </button>
+                                </form>
+                            )}
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        // ===== MASONRY GALLERY COMPONENT =====
+        const MasonryGallery = () => {
+            const [lightboxOpen, setLightboxOpen] = useState(false);
+            const [selectedImage, setSelectedImage] = useState(null);
+
+            const galleryImages = [
+                { id: 1, src: "https://picsum.photos/seed/gallery1/600/800", alt: "Modern Living Room" },
+                { id: 2, src: "https://picsum.photos/seed/gallery2/600/600", alt: "Luxury Kitchen" },
+                { id: 3, src: "https://picsum.photos/seed/gallery3/600/900", alt: "Master Bedroom" },
+                { id: 4, src: "https://picsum.photos/seed/gallery4/600/700", alt: "Swimming Pool" },
+                { id: 5, src: "https://picsum.photos/seed/gallery5/600/650", alt: "Garden View" },
+                { id: 6, src: "https://picsum.photos/seed/gallery6/600/750", alt: "Rooftop Terrace" },
+                { id: 7, src: "https://picsum.photos/seed/gallery7/600/850", alt: "Home Office" },
+                { id: 8, src: "https://picsum.photos/seed/gallery8/600/700", alt: "Dining Area" }
+            ];
+
+            const openLightbox = (image) => {
+                setSelectedImage(image);
+                setLightboxOpen(true);
+            };
+
+            return (
+                <section style={{ padding: '100px 0' }}>
+                    <div className="container">
+                        <h2 className="section-title fade-in">Property Gallery</h2>
+                        <p className="section-subtitle fade-in">
+                            Take a visual tour of our stunning properties and envision your dream home
+                        </p>
+                        <div className="masonry-grid">
+                            {galleryImages.map((image) => (
+                                <div 
+                                    key={image.id} 
+                                    className="masonry-item fade-in"
+                                    onClick={() => openLightbox(image)}
+                                >
+                                    <img src={image.src} alt={image.alt} loading="lazy" />
+                                    <div className="masonry-overlay">
+                                        <h3 style={{ color: 'white', fontSize: '1.2rem' }}>{image.alt}</h3>
+                                        <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.9rem' }}>
+                                            <i className="fas fa-search-plus"></i> Click to enlarge
+                                        </p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Lightbox */}
+                    {lightboxOpen && selectedImage && (
+                        <div className="lightbox active" onClick={() => setLightboxOpen(false)}>
+                            <img src={selectedImage.src} alt={selectedImage.alt} className="lightbox-img" />
+                            <button className="lightbox-close" aria-label="Close lightbox">
+                                <i className="fas fa-times"></i>
+                            </button>
+                        </div>
+                    )}
+                </section>
+            );
+        };
+
+        // ===== GOOGLE MAPS COMPONENT =====
+        const MapSection = () => {
+            return (
+                <section style={{ padding: '100px 0' }}>
+                    <div className="container">
+                        <h2 className="section-title fade-in">Visit Our Office</h2>
+                        <p className="section-subtitle fade-in">
+                            We're conveniently located in the heart of the city. Stop by for a coffee and consultation!
+                        </p>
+                        <div className="map-container fade-in">
+                            <iframe 
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d387190.2799182225!2d-74.25987564650538!3d40.69767006864659!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY!5e0!3m2!1sen!2sus!4v1700000000000!5m2!1sen!2sus"
+                                allowFullScreen
+                                loading="lazy"
+                                referrerPolicy="no-referrer-when-downgrade"
+                                title="Harshit Property Office Location"
+                            ></iframe>
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        // ===== FOOTER COMPONENT =====
+        const Footer = () => {
+            return (
+                <footer className="footer">
+                    <div className="container">
+                        <div className="footer-grid">
+                            <div className="footer-column">
+                                <h3>Harshit Property</h3>
+                                <p style={{ color: 'rgba(255,255,255,0.7)', lineHeight: '1.8', marginBottom: '20px' }}>
+                                    Your trusted partner in finding the perfect property. We combine local expertise with personalized service to make your real estate dreams come true.
+                                </p>
+                                <div className="social-icons">
+                                    <a href="#" className="social-icon" aria-label="Facebook">
+                                        <i className="fab fa-facebook-f"></i>
+                                    </a>
+                                    <a href="#" className="social-icon" aria-label="Instagram">
+                                        <i className="fab fa-instagram"></i>
+                                    </a>
+                                    <a href="#" className="social-icon" aria-label="Twitter">
+                                        <i className="fab fa-twitter"></i>
+                                    </a>
+                                    <a href="#" className="social-icon" aria-label="LinkedIn">
+                                        <i className="fab fa-linkedin-in"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div className="footer-column">
+                                <h3>Quick Links</h3>
+                                <ul className="footer-links">
+                                    <li><a href="#">Home</a></li>
+                                    <li><a href="#">About Us</a></li>
+                                    <li><a href="#">Properties</a></li>
+                                    <li><a href="#">Services</a></li>
+                                    <li><a href="#">Contact</a></li>
+                                </ul>
+                            </div>
+                            <div className="footer-column">
+                                <h3>Our Services</h3>
+                                <ul className="footer-links">
+                                    <li><a href="#">Buy Property</a></li>
+                                    <li><a href="#">Sell Property</a></li>
+                                    <li><a href="#">Property Management</a></li>
+                                    <li><a href="#">Investment Consulting</a></li>
+                                    <li><a href="#">Home Valuation</a></li>
+                                </ul>
+                            </div>
+                            <div className="footer-column">
+                                <h3>Contact Info</h3>
+                                <div className="footer-contact-item">
+                                    <i className="fas fa-map-marker-alt"></i>
+                                    <span>123 Dream Home Street, Suite 100, New York, NY 10001</span>
+                                </div>
+                                <div className="footer-contact-item">
+                                    <i className="fas fa-phone"></i>
+                                    <span>+1 (555) 123-4567</span>
+                                </div>
+                                <div className="footer-contact-item">
+                                    <i className="fas fa-envelope"></i>
+                                    <span>info@harshitproperty.com</span>
+                                </div>
+                                <div className="footer-contact-item">
+                                    <i className="fas fa-clock"></i>
+                                    <span>Mon - Fri: 9:00 AM - 6:00 PM</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="footer-bottom">
+                            <p>&copy; 2026 Harshit Property. All rights reserved. | Find Your Dream Home</p>
+                        </div>
+                    </div>
+                </footer>
+            );
+        };
+
+        // ===== ABOUT PAGE COMPONENT =====
+        const AboutPage = () => {
+            return (
+                <div className="page active" style={{ paddingTop: 'var(--header-height)' }}>
+                    <section className="about-hero">
+                        <div className="container">
+                            <h1 className="section-title fade-in">About Harshit Property</h1>
+                            <p className="section-subtitle fade-in">
+                                Building dreams and creating homes since 2011
+                            </p>
+                        </div>
+                    </section>
+
+                    <section style={{ padding: '100px 0' }}>
+                        <div className="container">
+                            <div className="about-content">
+                                <div className="about-image fade-in">
+                                    <img src="https://picsum.photos/seed/about/600/400" alt="About Harshit Property" />
+                                </div>
+                                <div className="about-text fade-in">
+                                    <h2>Our Story</h2>
+                                    <p>
+                                        Founded with a vision to revolutionize the real estate experience, Harshit Property has grown from a small local agency to a trusted name in the industry. Our journey began with a simple belief: everyone deserves a home they love.
+                                    </p>
+                                    <p>
+                                        Today, we continue to uphold that belief by providing exceptional service, expert market knowledge, and personalized attention to each client. Whether you're buying your first home, selling a property, or building an investment portfolio, we're here to guide you every step of the way.
+                                    </p>
+                                    <p>
+                                        Our team of experienced agents combines local expertise with cutting-edge technology to deliver results that exceed expectations. We don't just sell properties; we help you find places where memories are made and dreams come true.
+                                    </p>
+                                    <a href="#" className="btn btn-primary" style={{ marginTop: '20px' }}>
+                                        <i className="fas fa-handshake"></i> Work With Us
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <StatsSection />
+
+                    <section style={{ padding: '100px 0' }}>
+                        <div className="container">
+                            <h2 className="section-title fade-in">Our Values</h2>
+                            <div className="services-grid">
+                                <div className="service-card fade-in">
+                                    <div className="service-icon">
+                                        <i className="fas fa-shield-alt"></i>
+                                    </div>
+                                    <h3 className="service-title">Trust & Integrity</h3>
+                                    <p className="service-description">
+                                        We build lasting relationships through honest communication and ethical business practices.
+                                    </p>
+                                </div>
+                                <div className="service-card fade-in">
+                                    <div className="service-icon">
+                                        <i className="fas fa-star"></i>
+                                    </div>
+                                    <h3 className="service-title">Excellence</h3>
+                                    <p className="service-description">
+                                        We strive for excellence in every transaction, ensuring the highest level of service.
+                                    </p>
+                                </div>
+                                <div className="service-card fade-in">
+                                    <div className="service-icon">
+                                        <i className="fas fa-users"></i>
+                                    </div>
+                                    <h3 className="service-title">Client-Centric</h3>
+                                    <p className="service-description">
+                                        Your needs come first. We listen, understand, and deliver solutions tailored to you.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            );
+        };
+
+        // ===== SERVICES PAGE COMPONENT =====
+        const ServicesPage = () => {
+            const services = [
+                {
+                    icon: 'fas fa-home',
+                    title: 'Buy a Property',
+                    description: 'Find your dream home with our extensive listings and expert guidance through the entire buying process.',
+                    features: ['Property Search', 'Market Analysis', 'Negotiation Support', 'Closing Assistance']
+                },
+                {
+                    icon: 'fas fa-dollar-sign',
+                    title: 'Sell Your Home',
+                    description: 'Maximize your property value with our strategic marketing and professional selling services.',
+                    features: ['Home Valuation', 'Staging Advice', 'Marketing Strategy', 'Offer Negotiation']
+                },
+                {
+                    icon: 'fas fa-chart-line',
+                    title: 'Investment Consulting',
+                    description: 'Build wealth through real estate with our expert investment advice and market insights.',
+                    features: ['Portfolio Analysis', 'ROI Calculations', 'Market Trends', 'Property Sourcing']
+                },
+                {
+                    icon: 'fas fa-key',
+                    title: 'Property Management',
+                    description: 'Let us handle your rental properties with comprehensive management services.',
+                    features: ['Tenant Screening', 'Rent Collection', 'Maintenance', 'Financial Reporting']
+                },
+                {
+                    icon: 'fas fa-file-contract',
+                    title: 'Legal Assistance',
+                    description: 'Navigate complex real estate laws with our network of experienced legal professionals.',
+                    features: ['Contract Review', 'Legal Compliance', 'Documentation', 'Dispute Resolution']
+                },
+                {
+                    icon: 'fas fa-search-location',
+                    title: 'Market Analysis',
+                    description: 'Make informed decisions with our comprehensive market analysis and property valuations.',
+                    features: ['Comparative Analysis', 'Price Trends', 'Neighborhood Data', 'Investment Potential']
+                }
+            ];
+
+            return (
+                <div className="page active" style={{ paddingTop: 'var(--header-height)' }}>
+                    <section className="about-hero">
+                        <div className="container">
+                            <h1 className="section-title fade-in">Our Services</h1>
+                            <p className="section-subtitle fade-in">
+                                Comprehensive real estate solutions tailored to your needs
+                            </p>
+                        </div>
+                    </section>
+
+                    <section style={{ padding: '100px 0' }}>
+                        <div className="container">
+                            <div className="services-grid">
+                                {services.map((service, index) => (
+                                    <div key={index} className="service-card fade-in">
+                                        <div className="service-icon">
+                                            <i className={service.icon}></i>
+                                        </div>
+                                        <h3 className="service-title">{service.title}</h3>
+                                        <p className="service-description">{service.description}</p>
+                                        <ul style={{ textAlign: 'left', marginTop: '20px', listStyle: 'none' }}>
+                                            {service.features.map((feature, i) => (
+                                                <li key={i} style={{ padding: '6px 0', color: 'var(--text-light)' }}>
+                                                    <i className="fas fa-check" style={{ color: 'var(--primary)', marginRight: '8px' }}></i>
+                                                    {feature}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            );
+        };
+
+        // ===== PROPERTIES PAGE COMPONENT =====
+        const PropertiesPage = () => {
+            const [activeFilter, setActiveFilter] = useState('all');
+
+            const properties = [
+                { id: 1, title: "Luxury Villa in Beverly Hills", price: "$2,850,000", location: "Beverly Hills, CA", beds: 5, baths: 4, sqft: "4,200", image: "https://picsum.photos/seed/prop1/600/400", type: "luxury", badge: "Featured" },
+                { id: 2, title: "Modern Apartment Downtown", price: "$750,000", location: "New York, NY", beds: 3, baths: 2, sqft: "1,800", image: "https://picsum.photos/seed/prop2/600/400", type: "apartment", badge: "New" },
+                { id: 3, title: "Cozy Family Home", price: "$1,200,000", location: "Austin, TX", beds: 4, baths: 3, sqft: "2,800", image: "https://picsum.photos/seed/prop3/600/400", type: "family", badge: "Sale" },
+                { id: 4, title: "Waterfront Penthouse", price: "$3,500,000", location: "Miami, FL", beds: 6, baths: 5, sqft: "5,000", image: "https://picsum.photos/seed/prop4/600/400", type: "luxury", badge: "Luxury" },
+                { id: 5, title: "Suburban Dream House", price: "$950,000", location: "Seattle, WA", beds: 4, baths: 3, sqft: "3,000", image: "https://picsum.photos/seed/prop5/600/400", type: "family", badge: "Popular" },
+                { id: 6, title: "Mountain View Estate", price: "$1,800,000", location: "Denver, CO", beds: 5, baths: 4, sqft: "4,500", image: "https://picsum.photos/seed/prop6/600/400", type: "luxury", badge: "Exclusive" },
+                { id: 7, title: "City Loft Apartment", price: "$680,000", location: "Chicago, IL", beds: 2, baths: 2, sqft: "1,400", image: "https://picsum.photos/seed/prop7/600/400", type: "apartment", badge: "New" },
+                { id: 8, title: "Garden View Villa", price: "$1,500,000", location: "Portland, OR", beds: 4, baths: 3, sqft: "3,200", image: "https://picsum.photos/seed/prop8/600/400", type: "family", badge: "Featured" },
+                { id: 9, title: "Penthouse with Terrace", price: "$2,200,000", location: "San Francisco, CA", beds: 3, baths: 3, sqft: "2,800", image: "https://picsum.photos/seed/prop9/600/400", type: "luxury", badge: "Luxury" }
+            ];
+
+            const filters = [
+                { id: 'all', label: 'All Properties' },
+                { id: 'luxury', label: 'Luxury' },
+                { id: 'family', label: 'Family Homes' },
+                { id: 'apartment', label: 'Apartments' }
+            ];
+
+            const filteredProperties = activeFilter === 'all' 
+                ? properties 
+                : properties.filter(p => p.type === activeFilter);
+
+            return (
+                <div className="page active" style={{ paddingTop: 'var(--header-height)' }}>
+                    <section className="about-hero">
+                        <div className="container">
+                            <h1 className="section-title fade-in">Our Properties</h1>
+                            <p className="section-subtitle fade-in">
+                                Discover your perfect home from our extensive collection
+                            </p>
+                        </div>
+                    </section>
+
+                    <section style={{ padding: '60px 0 100px' }}>
+                        <div className="container">
+                            <div className="properties-filter">
+                                {filters.map(filter => (
+                                    <button
+                                        key={filter.id}
+                                        className={`filter-btn ${activeFilter === filter.id ? 'active' : ''}`}
+                                        onClick={() => setActiveFilter(filter.id)}
+                                    >
+                                        {filter.label}
+                                    </button>
+                                ))}
+                            </div>
+                            <div className="properties-grid">
+                                {filteredProperties.map((property, index) => (
+                                    <div key={property.id} className="property-card fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
+                                        <div className="property-image">
+                                            <img src={property.image} alt={property.title} loading="lazy" />
+                                            <span className="property-badge">{property.badge}</span>
+                                        </div>
+                                        <div className="property-content">
+                                            <div className="property-price">{property.price}</div>
+                                            <h3 className="property-title">{property.title}</h3>
+                                            <div className="property-location">
+                                                <i className="fas fa-map-marker-alt"></i>
+                                                {property.location}
+                                            </div>
+                                            <div className="property-features">
+                                                <div className="property-feature">
+                                                    <i className="fas fa-bed"></i> {property.beds} Beds
+                                                </div>
+                                                <div className="property-feature">
+                                                    <i className="fas fa-bath"></i> {property.baths} Baths
+                                                </div>
+                                                <div className="property-feature">
+                                                    <i className="fas fa-ruler-combined"></i> {property.sqft} sqft
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            );
+        };
+
+        // ===== DREAM HOME QUIZ COMPONENT =====
+        const DreamHomeQuiz = () => {
+            const [answers, setAnswers] = useState({});
+            const [showResult, setShowResult] = useState(false);
+
+            const questions = [
+                {
+                    id: 'budget',
+                    question: 'What is your budget range?',
+                    options: ['$500K - $1M', '$1M - $2M', '$2M - $5M', '$5M+']
+                },
+                {
+                    id: 'type',
+                    question: 'What type of property do you prefer?',
+                    options: ['Single Family', 'Condo/Apartment', 'Luxury Villa', 'Penthouse']
+                },
+                {
+                    id: 'location',
+                    question: 'Preferred location type?',
+                    options: ['City Center', 'Suburban', 'Waterfront', 'Mountain View']
+                }
+            ];
+
+            const handleAnswer = (questionId, option) => {
+                setAnswers({...answers, [questionId]: option});
+            };
+
+            const getRecommendation = () => {
+                const budget = answers.budget || '';
+                if (budget.includes('$5M')) return 'Luxury Villa in Beverly Hills';
+                if (budget.includes('$2M')) return 'Waterfront Penthouse in Miami';
+                if (budget.includes('$1M')) return 'Modern Family Home in Austin';
+                return 'Cozy Apartment in Downtown';
+            };
+
+            return (
+                <section style={{ padding: '100px 0', background: 'var(--bg-blush)' }}>
+                    <div className="container">
+                        <h2 className="section-title fade-in">Find Your Perfect Match</h2>
+                        <p className="section-subtitle fade-in">Take our quick quiz to discover properties tailored to your preferences</p>
+                        <div className="quiz-section fade-in">
+                            {questions.map((q) => (
+                                <div key={q.id} className="quiz-question">
+                                    <h3>{q.question}</h3>
+                                    <div className="quiz-options">
+                                        {q.options.map((opt) => (
+                                            <div
+                                                key={opt}
+                                                className={`quiz-option ${answers[q.id] === opt ? 'selected' : ''}`}
+                                                onClick={() => handleAnswer(q.id, opt)}
+                                            >
+                                                {opt}
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            ))}
+                            {Object.keys(answers).length === 3 && !showResult && (
+                                <button className="btn btn-primary" onClick={() => setShowResult(true)} style={{ width: '100%', justifyContent: 'center', marginTop: '20px' }}>
+                                    <i className="fas fa-magic"></i> Get Recommendation
+                                </button>
+                            )}
+                            {showResult && (
+                                <div style={{ marginTop: '30px', padding: '30px', background: 'rgba(232, 160, 191, 0.1)', borderRadius: '12px', textAlign: 'center' }}>
+                                    <i className="fas fa-home" style={{ fontSize: '2.5rem', color: 'var(--accent-mauve)', marginBottom: '16px', display: 'block' }}></i>
+                                    <h3 style={{ marginBottom: '10px' }}>We Recommend:</h3>
+                                    <p style={{ fontSize: '1.3rem', color: 'var(--accent-mauve)', fontWeight: '600' }}>{getRecommendation()}</p>
+                                    <button className="btn btn-primary" style={{ marginTop: '20px' }} onClick={() => { setShowResult(false); setAnswers({}); }}>
+                                        Retake Quiz
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        // ===== MARKET TRENDS COMPONENT =====
+        const MarketTrends = () => {
+            const [animated, setAnimated] = useState(false);
+
+            useEffect(() => {
+                const observer = new IntersectionObserver(
+                    ([entry]) => {
+                        if (entry.isIntersecting) setAnimated(true);
+                    },
+                    { threshold: 0.3 }
+                );
+                const el = document.getElementById('market-trends-chart');
+                if (el) observer.observe(el);
+                return () => observer.disconnect();
+            }, []);
+
+            const trends = [
+                { month: 'Jan', value: 40, price: '$850K' },
+                { month: 'Feb', value: 55, price: '$920K' },
+                { month: 'Mar', value: 48, price: '$880K' },
+                { month: 'Apr', value: 70, price: '$1.1M' },
+                { month: 'May', value: 65, price: '$1.05M' },
+                { month: 'Jun', value: 85, price: '$1.3M' },
+                { month: 'Jul', value: 78, price: '$1.25M' },
+                { month: 'Aug', value: 90, price: '$1.4M' }
+            ];
+
+            return (
+                <section style={{ padding: '100px 0' }}>
+                    <div className="container">
+                        <h2 className="section-title fade-in">Market Trends</h2>
+                        <p className="section-subtitle fade-in">Real-time insights into property market performance</p>
+                        <div id="market-trends-chart" className="market-trends fade-in">
+                            {trends.map((t, i) => (
+                                <div key={i} className="trend-bar">
+                                    <div className="bar-value">{t.price}</div>
+                                    <div 
+                                        className={`bar ${animated ? 'animated' : ''}`}
+                                        style={{ '--bar-height': animated ? `${t.value}%` : '0%' }}
+                                    ></div>
+                                    <div className="bar-label">{t.month}</div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        // ===== AGENTS PAGE COMPONENT =====
+        const AgentsPage = () => {
+            const agents = [
+                {
+                    name: "Priya Sharma",
+                    title: "Senior Property Consultant",
+                    image: "https://picsum.photos/seed/agent1/300/300",
+                    bio: "With over 12 years of experience, Priya specializes in luxury properties and has helped hundreds of families find their dream homes.",
+                    phone: "+1 (555) 111-2222",
+                    email: "priya@harshitproperty.com"
+                },
+                {
+                    name: "Rahul Verma",
+                    title: "Investment Advisor",
+                    image: "https://picsum.photos/seed/agent2/300/300",
+                    bio: "Rahul is our go-to expert for property investments, helping clients build profitable real estate portfolios with strategic insights.",
+                    phone: "+1 (555) 333-4444",
+                    email: "rahul@harshitproperty.com"
+                },
+                {
+                    name: "Anjali Patel",
+                    title: "First-Time Buyer Specialist",
+                    image: "https://picsum.photos/seed/agent3/300/300",
+                    bio: "Anjali makes the home buying process seamless for first-time buyers, offering patient guidance and expert advice every step of the way.",
+                    phone: "+1 (555) 555-6666",
+                    email: "anjali@harshitproperty.com"
+                },
+                {
+                    name: "Vikram Singh",
+                    title: "Commercial Properties Expert",
+                    image: "https://picsum.photos/seed/agent4/300/300",
+                    bio: "Vikram brings extensive knowledge of commercial real estate, helping businesses find the perfect spaces to grow and thrive.",
+                    phone: "+1 (555) 777-8888",
+                    email: "vikram@harshitproperty.com"
+                }
+            ];
+
+            return (
+                <div className="page active" style={{ paddingTop: 'var(--header-height)' }}>
+                    <section className="about-hero">
+                        <div className="container">
+                            <h1 className="section-title fade-in">Our Expert Agents</h1>
+                            <p className="section-subtitle fade-in">Meet our team of dedicated professionals ready to assist you</p>
+                        </div>
+                    </section>
+
+                    <section style={{ padding: '60px 0 100px' }}>
+                        <div className="container">
+                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '30px' }}>
+                                {agents.map((agent, index) => (
+                                    <div key={index} className="agent-card fade-in">
+                                        <div className="agent-avatar">
+                                            <img src={agent.image} alt={agent.name} />
+                                        </div>
+                                        <h3 className="agent-name">{agent.name}</h3>
+                                        <div className="agent-title">{agent.title}</div>
+                                        <p className="agent-bio">{agent.bio}</p>
+                                        <div style={{ marginTop: '20px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                                            <a href={`tel:${agent.phone}`} style={{ color: 'var(--text-light)', fontSize: '0.9rem' }}>
+                                                <i className="fas fa-phone" style={{ marginRight: '8px', color: 'var(--primary)' }}></i>
+                                                {agent.phone}
+                                            </a>
+                                            <a href={`mailto:${agent.email}`} style={{ color: 'var(--text-light)', fontSize: '0.9rem' }}>
+                                                <i className="fas fa-envelope" style={{ marginRight: '8px', color: 'var(--primary)' }}></i>
+                                                {agent.email}
+                                            </a>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            );
+        };
+
+        // ===== NEIGHBORHOODS PAGE COMPONENT =====
+        const NeighborhoodsPage = () => {
+            const neighborhoods = [
+                {
+                    name: "Beverly Hills",
+                    image: "https://picsum.photos/seed/hood1/600/400",
+                    avgPrice: "$2.8M",
+                    description: "Luxury living at its finest with world-class shopping and dining.",
+                    properties: 45,
+                    rating: 4.9
+                },
+                {
+                    name: "Downtown Manhattan",
+                    image: "https://picsum.photos/seed/hood2/600/400",
+                    avgPrice: "$1.5M",
+                    description: "Urban lifestyle with skyscrapers, culture, and endless entertainment.",
+                    properties: 120,
+                    rating: 4.7
+                },
+                {
+                    name: "Austin Suburbs",
+                    image: "https://picsum.photos/seed/hood3/600/400",
+                    avgPrice: "$950K",
+                    description: "Family-friendly communities with great schools and parks.",
+                    properties: 80,
+                    rating: 4.8
+                },
+                {
+                    name: "Miami Beach",
+                    image: "https://picsum.photos/seed/hood4/600/400",
+                    avgPrice: "$3.2M",
+                    description: "Oceanfront living with vibrant nightlife and art deco charm.",
+                    properties: 65,
+                    rating: 4.9
+                },
+                {
+                    name: "Seattle Heights",
+                    image: "https://picsum.photos/seed/hood5/600/400",
+                    avgPrice: "$1.1M",
+                    description: "Tech hub neighborhoods with modern amenities and coffee culture.",
+                    properties: 95,
+                    rating: 4.6
+                },
+                {
+                    name: "Denver Metro",
+                    image: "https://picsum.photos/seed/hood6/600/400",
+                    avgPrice: "$1.3M",
+                    description: "Mountain views, outdoor recreation, and growing urban centers.",
+                    properties: 70,
+                    rating: 4.7
+                }
+            ];
+
+            return (
+                <div className="page active" style={{ paddingTop: 'var(--header-height)' }}>
+                    <section className="about-hero">
+                        <div className="container">
+                            <h1 className="section-title fade-in">Explore Neighborhoods</h1>
+                            <p className="section-subtitle fade-in">Discover the perfect neighborhood that matches your lifestyle</p>
+                        </div>
+                    </section>
+
+                    <section style={{ padding: '60px 0 100px' }}>
+                        <div className="container">
+                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))', gap: '30px' }}>
+                                {neighborhoods.map((hood, index) => (
+                                    <div key={index} className="neighborhood-card fade-in">
+                                        <img src={hood.image} alt={hood.name} className="neighborhood-image" />
+                                        <div className="neighborhood-overlay">
+                                            <h3 className="neighborhood-name">{hood.name}</h3>
+                                            <div className="neighborhood-price">Avg. Price: {hood.avgPrice}</div>
+                                            <p style={{ opacity: 0.9, fontSize: '0.9rem', margin: '8px 0' }}>{hood.description}</p>
+                                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                                <span style={{ fontSize: '0.9rem' }}>{hood.properties} Properties</span>
+                                                <span style={{ fontSize: '0.9rem' }}>
+                                                    <i className="fas fa-star" style={{ color: '#ffd700', marginRight: '4px' }}></i>
+                                                    {hood.rating}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            );
+        };
+
+        // ===== BLOG PAGE COMPONENT =====
+        const BlogPage = () => {
+            const posts = [
+                {
+                    title: "2026 Real Estate Market Predictions",
+                    excerpt: "Discover what experts are forecasting for the real estate market in 2026, from interest rates to emerging neighborhoods.",
+                    image: "https://picsum.photos/seed/blog1/600/400",
+                    date: "May 1, 2026",
+                    category: "Market Trends"
+                },
+                {
+                    title: "First-Time Homebuyer's Complete Guide",
+                    excerpt: "Everything you need to know about buying your first home, from mortgage pre-approval to closing day.",
+                    image: "https://picsum.photos/seed/blog2/600/400",
+                    date: "April 25, 2026",
+                    category: "Buying Tips"
+                },
+                {
+                    title: "Top 10 Home Staging Tips That Sell",
+                    excerpt: "Learn how to stage your home to attract buyers and sell faster with these proven staging strategies.",
+                    image: "https://picsum.photos/seed/blog3/600/400",
+                    date: "April 18, 2026",
+                    category: "Selling"
+                },
+                {
+                    title: "Investment Properties: Building Wealth",
+                    excerpt: "How to build a profitable real estate investment portfolio with strategic property acquisitions.",
+                    image: "https://picsum.photos/seed/blog4/600/400",
+                    date: "April 10, 2026",
+                    category: "Investment"
+                },
+                {
+                    title: "Sustainable Homes: The Future of Living",
+                    excerpt: "Explore eco-friendly home features that save money and help the environment while increasing property value.",
+                    image: "https://picsum.photos/seed/blog5/600/400",
+                    date: "April 3, 2026",
+                    category: "Lifestyle"
+                },
+                {
+                    title: "Understanding Property Taxes in 2026",
+                    excerpt: "A comprehensive guide to property taxes, deductions, and how they impact your home buying decision.",
+                    image: "https://picsum.photos/seed/blog6/600/400",
+                    date: "March 28, 2026",
+                    category: "Finance"
+                }
+            ];
+
+            return (
+                <div className="page active" style={{ paddingTop: 'var(--header-height)' }}>
+                    <section className="about-hero">
+                        <div className="container">
+                            <h1 className="section-title fade-in">Real Estate Blog</h1>
+                            <p className="section-subtitle fade-in">Stay informed with the latest insights, tips, and trends in real estate</p>
+                        </div>
+                    </section>
+
+                    <section style={{ padding: '60px 0 100px' }}>
+                        <div className="container">
+                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))', gap: '30px' }}>
+                                {posts.map((post, index) => (
+                                    <div key={index} className="blog-card fade-in">
+                                        <div className="blog-image">
+                                            <img src={post.image} alt={post.title} />
+                                        </div>
+                                        <div className="blog-content">
+                                            <div className="blog-date">
+                                                <i className="fas fa-calendar" style={{ marginRight: '6px' }}></i>
+                                                {post.date} | {post.category}
+                                            </div>
+                                            <h3 className="blog-title">{post.title}</h3>
+                                            <p className="blog-excerpt">{post.excerpt}</p>
+                                            <a href="#" className="btn btn-glass" style={{ padding: '8px 20px', fontSize: '0.9rem' }}>
+                                                Read More <i className="fas fa-arrow-right"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            );
+        };
+
+        // ===== PRO LISTINGS PAGE WITH WISHLIST =====
+        const ProListingsPage = () => {
+            const [wishlist, setWishlist] = useState([]);
+            const [showPremium, setShowPremium] = useState({});
+            const [virtualTour, setVirtualTour] = useState(null);
+
+            const toggleWishlist = (id) => {
+                setWishlist(prev => 
+                    prev.includes(id) 
+                        ? prev.filter(item => item !== id)
+                        : [...prev, id]
+                );
+            };
+
+            const togglePremium = (id) => {
+                setShowPremium(prev => ({ ...prev, [id]: !prev[id] }));
+            };
+
+            const proProperties = [
+                {
+                    id: 101,
+                    title: "Ultra-Luxury Penthouse Sky Villa",
+                    price: "$12,500,000",
+                    location: "Beverly Hills, CA",
+                    beds: 6,
+                    baths: 7,
+                    sqft: "8,500",
+                    image: "https://picsum.photos/seed/pro1/800/500",
+                    badge: "Exclusive Pro",
+                    description: "Experience unparalleled luxury in this stunning penthouse with panoramic city views, private elevator, and rooftop infinity pool.",
+                    features: ["Private Elevator", "Wine Cellar", "Home Theater", "Smart Home"],
+                    virtualTourUrl: "#",
+                    agent: "Priya Sharma"
+                },
+                {
+                    id: 102,
+                    title: "Oceanfront Estate with Private Beach",
+                    price: "$18,750,000",
+                    location: "Malibu, CA",
+                    beds: 8,
+                    baths: 9,
+                    sqft: "12,000",
+                    image: "https://picsum.photos/seed/pro2/800/500",
+                    badge: "Exclusive Pro",
+                    description: "A rare oceanfront masterpiece featuring direct beach access, helicopter pad, and resort-style amenities throughout.",
+                    features: ["Private Beach", "Helipad", "Spa & Wellness", "Guest House"],
+                    virtualTourUrl: "#",
+                    agent: "Rahul Verma"
+                },
+                {
+                    id: 103,
+                    title: "Historic Mansion Renovated",
+                    price: "$9,800,000",
+                    location: "Manhattan, NY",
+                    beds: 7,
+                    baths: 8,
+                    sqft: "10,200",
+                    image: "https://picsum.photos/seed/pro3/800/500",
+                    badge: "Exclusive Pro",
+                    description: "A meticulously restored historic mansion blending classic architecture with modern luxury amenities and smart technology.",
+                    features: ["Ballroom", "Library", "Smart Home", "Rooftop Garden"],
+                    virtualTourUrl: "#",
+                    agent: "Anjali Patel"
+                },
+                {
+                    id: 104,
+                    title: "Mountain Retreat with Ski Access",
+                    price: "$7,200,000",
+                    location: "Aspen, CO",
+                    beds: 5,
+                    baths: 6,
+                    sqft: "6,800",
+                    image: "https://picsum.photos/seed/pro4/800/500",
+                    badge: "Exclusive Pro",
+                    description: "Luxury mountain living at its finest with direct ski-in/ski-out access and breathtaking Rocky Mountain views.",
+                    features: ["Ski Access", "Hot Tub", "Wine Cellar", "Gym"],
+                    virtualTourUrl: "#",
+                    agent: "Vikram Singh"
+                }
+            ];
+
+            return (
+                <div className="page active" style={{ paddingTop: 'var(--header-height)' }}>
+                    <section className="about-hero">
+                        <div className="container">
+                            <h1 className="section-title fade-in">Pro Listings</h1>
+                            <p className="section-subtitle fade-in">Exclusive ultra-luxury properties for the most discerning buyers</p>
+                        </div>
+                    </section>
+
+                    <section style={{ padding: '60px 0 100px' }}>
+                        <div className="container">
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '40px' }}>
+                                {proProperties.map((property, index) => (
+                                    <div key={property.id} className="property-card fade-in" style={{ display: 'flex', flexDirection: 'row', overflow: 'hidden' }}>
+                                        <div style={{ flex: '1', position: 'relative', minHeight: '350px' }}>
+                                            <img src={property.image} alt={property.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                            <span className="property-badge pro-badge" style={{ position: 'absolute', top: '16px', left: '16px' }}>{property.badge}</span>
+                                            <button 
+                                                className={`wishlist-btn ${wishlist.includes(property.id) ? 'active' : ''}`}
+                                                onClick={() => toggleWishlist(property.id)}
+                                                aria-label="Add to wishlist"
+                                            >
+                                                <i className={wishlist.includes(property.id) ? 'fas fa-heart' : 'far fa-heart'}></i>
+                                            </button>
+                                        </div>
+                                        <div style={{ flex: '1', padding: '40px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                                            <div className="property-price" style={{ fontSize: '2rem' }}>{property.price}</div>
+                                            <h3 className="property-title" style={{ fontSize: '1.5rem' }}>{property.title}</h3>
+                                            <div className="property-location" style={{ marginBottom: '16px' }}>
+                                                <i className="fas fa-map-marker-alt"></i> {property.location}
+                                            </div>
+                                            <p style={{ color: 'var(--text-light)', lineHeight: '1.8', marginBottom: '20px' }}>{property.description}</p>
+                                            <div className="property-features" style={{ marginBottom: '20px' }}>
+                                                <div className="property-feature"><i className="fas fa-bed"></i> {property.beds} Beds</div>
+                                                <div className="property-feature"><i className="fas fa-bath"></i> {property.baths} Baths</div>
+                                                <div className="property-feature"><i className="fas fa-ruler-combined"></i> {property.sqft} sqft</div>
+                                            </div>
+                                            <div className="pro-property-specs">
+                                                {property.features.map((f, i) => (
+                                                    <div key={i} className="pro-spec">
+                                                        <i className="fas fa-check-circle"></i> {f}
+                                                    </div>
+                                                ))}
+                                            </div>
+                                            <div className="premium-features" style={{ marginTop: '20px' }}>
+                                                <button className="premium-btn" onClick={() => togglePremium(property.id)}>
+                                                    <i className={`fas ${showPremium[property.id] ? 'fa-eye-slash' : 'fa-vr-cardboard'}`}></i>
+                                                    {showPremium[property.id] ? 'Hide Tour' : 'Virtual Tour'}
+                                                </button>
+                                                <button className="premium-btn">
+                                                    <i className="fas fa-calendar-alt"></i> Schedule Viewing
+                                                </button>
+                                                <button className="premium-btn">
+                                                    <i className="fas fa-file-contract"></i> Request Docs
+                                                </button>
+                                            </div>
+                                            {showPremium[property.id] && (
+                                                <div style={{ marginTop: '20px', padding: '20px', background: 'rgba(232, 160, 191, 0.1)', borderRadius: '12px', textAlign: 'center' }}>
+                                                    <i className="fas fa-vr-cardboard" style={{ fontSize: '2rem', color: 'var(--accent-mauve)', marginBottom: '10px', display: 'block' }}></i>
+                                                    <p style={{ color: 'var(--text-light)' }}>Virtual tour would launch here with 360° interactive experience</p>
+                                                </div>
+                                            )}
+                                            <p style={{ marginTop: '15px', fontSize: '0.9rem', color: 'var(--text-light)' }}>
+                                                <i className="fas fa-user" style={{ marginRight: '6px', color: 'var(--primary)' }}></i>
+                                                Agent: {property.agent}
+                                            </p>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            );
+        };
+
+        // ===== WHATSAPP WIDGET COMPONENT =====
+        const WhatsAppWidget = () => {
+            const [isOpen, setIsOpen] = useState(false);
+
+            return (
+                <div className="whatsapp-widget">
+                    {isOpen && (
+                        <div className="whatsapp-popup">
+                            <p><i className="fab fa-whatsapp" style={{ color: '#25D366', marginRight: '6px' }}></i>
+                            Hi! 👋 Need help finding your dream home?</p>
+                            <a
+                                href="https://wa.me/15551234567?text=Hi%20Harshit%20Property,%20I'm%20interested%20in%20finding%20my%20dream%20home."
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="btn btn-primary"
+                                style={{ width: '100%', justifyContent: 'center', fontSize: '0.9rem', padding: '10px 20px' }}
+                            >
+                                <i className="fab fa-whatsapp"></i> Chat on WhatsApp
+                            </a>
+                        </div>
+                    )}
+                    <button
+                        className="whatsapp-btn"
+                        onClick={() => setIsOpen(!isOpen)}
+                        aria-label="Chat on WhatsApp"
+                    >
+                        <i className={isOpen ? 'fas fa-times' : 'fab fa-whatsapp'}></i>
+                    </button>
+                </div>
+            );
+        };
+
+        const App = () => {
+            const [isMenuOpen, setIsMenuOpen] = useState(false);
+            const [theme, setTheme] = useState('light');
+            const [currentPage, setCurrentPage] = useState('home');
+            const [showBackToTop, setShowBackToTop] = useState(false);
+
+            // Theme toggle
+            const toggleTheme = () => {
+                const newTheme = theme === 'light' ? 'dark' : 'light';
+                setTheme(newTheme);
+                document.documentElement.setAttribute('data-theme', newTheme);
+            };
+
+            // Scroll handler for back to top button
+            useEffect(() => {
+                const handleScroll = () => {
+                    setShowBackToTop(window.scrollY > 500);
+                };
+                window.addEventListener('scroll', handleScroll);
+                return () => window.removeEventListener('scroll', handleScroll);
+            }, []);
+
+            // Custom cursor
+            useEffect(() => {
+                const cursor = document.getElementById('custom-cursor');
+                if (!cursor) return;
+
+                const handleMouseMove = (e) => {
+                    cursor.style.left = e.clientX + 'px';
+                    cursor.style.top = e.clientY + 'px';
+                };
+
+                const handleMouseEnter = () => cursor.classList.add('hover');
+                const handleMouseLeave = () => cursor.classList.remove('hover');
+
+                document.addEventListener('mousemove', handleMouseMove);
+
+                const interactiveElements = document.querySelectorAll('a, button, .property-card, .masonry-item');
+                interactiveElements.forEach(el => {
+                    el.addEventListener('mouseenter', handleMouseEnter);
+                    el.addEventListener('mouseleave', handleMouseLeave);
+                });
+
+                return () => {
+                    document.removeEventListener('mousemove', handleMouseMove);
+                };
+            }, [currentPage]);
+
+            // Scroll fade-in animations
+            useEffect(() => {
+                const observer = new IntersectionObserver(
+                    (entries) => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                entry.target.classList.add('visible');
+                            }
+                        });
+                    },
+                    { threshold: 0.1 }
+                );
+
+                setTimeout(() => {
+                    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+                }, 100);
+
+                return () => observer.disconnect();
+            }, [currentPage]);
+
+            // Preloader
+            useEffect(() => {
+                const preloader = document.getElementById('preloader');
+                if (preloader) {
+                    setTimeout(() => {
+                        preloader.classList.add('hidden');
+                    }, 1500);
+                }
+            }, []);
+
+            // Set theme on load
+            useEffect(() => {
+                document.documentElement.setAttribute('data-theme', theme);
+            }, []);
+
+            const scrollToTop = () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            };
+
+            return (
+                <>
+                    <Header
+                        isMenuOpen={isMenuOpen}
+                        setIsMenuOpen={setIsMenuOpen}
+                        theme={theme}
+                        toggleTheme={toggleTheme}
+                        currentPage={currentPage}
+                        setCurrentPage={setCurrentPage}
+                    />
+
+                    {/* Home Page */}
+                    {currentPage === 'home' && (
+                        <div className="page active">
+                            <HeroSection />
+                            <DreamHomeQuiz />
+                            <StatsSection />
+                            <FeaturedProperties />
+                            <MarketTrends />
+                            <TestimonialCarousel />
+                            <MasonryGallery />
+                            <FAQSection />
+                            <ContactSection />
+                            <NewsletterSection />
+                            <MapSection />
+                        </div>
+                    )}
+
+                    {/* About Page */}
+                    {currentPage === 'about' && <AboutPage />}
+
+                    {/* Properties Page */}
+                    {currentPage === 'properties' && <PropertiesPage />}
+
+                    {/* Pro Listings Page */}
+                    {currentPage === 'pro-listings' && <ProListingsPage />}
+
+                    {/* Services Page */}
+                    {currentPage === 'services' && <ServicesPage />}
+
+                    {/* Agents Page */}
+                    {currentPage === 'agents' && <AgentsPage />}
+
+                    {/* Neighborhoods Page */}
+                    {currentPage === 'neighborhoods' && <NeighborhoodsPage />}
+
+                    {/* Blog Page */}
+                    {currentPage === 'blog' && <BlogPage />}
+
+                    {/* Contact Page */}
+                    {currentPage === 'contact' && (
+                        <div className="page active" style={{ paddingTop: 'var(--header-height)' }}>
+                            <ContactSection />
+                            <MapSection />
+                        </div>
+                    )}
+
+                    <Footer />
+
+                    {/* Back to Top Button */}
+                    <button
+                        className={`back-to-top ${showBackToTop ? 'visible' : ''}`}
+                        onClick={scrollToTop}
+                        aria-label="Back to top"
+                    >
+                        <i className="fas fa-chevron-up"></i>
+                    </button>
+
+                    {/* Sticky CTA Button */}
+                    <a href="#" className="sticky-cta" onClick={(e) => { e.preventDefault(); setCurrentPage('contact'); }}>
+                        <i className="fas fa-phone"></i>
+                        <span>Schedule a Call</span>
+                    </a>
+
+                    {/* WhatsApp Widget */}
+                    <WhatsAppWidget />
+                </>
+            );
+        };
+
+        // Render the React application
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html>
