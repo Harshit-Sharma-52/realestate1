@@ -27,40 +27,44 @@
     <style>
         /* ===== CSS CUSTOM PROPERTIES ===== */
         :root {
-            --primary: #e8a0bf;
-            --primary-light: #f0c4d8;
-            --primary-dark: #d481a3;
+            --primary: #932051;
+            --primary: #209385;
+            --primary: #2a3561;
+            --primary-light: #881147;
+            --primary: #932051;
+            --primary-dark: #98114a;
             --bg-blush: #FDF2F8;
-            --accent-mauve: #9d4e7c;
+            --accent-mauve: #78104d;
             --accent-mauve-light: #b86a95;
-            --text-dark: #2d2d2d;
-            --text-light: #666666;
+            --text-dark: #0a0909;
+            --text-light: #100f0f;
             --text-white: #ffffff;
-            --glass-bg: rgba(255, 255, 255, 0.25);
-            --glass-border: rgba(255, 255, 255, 0.4);
+            --glass-bg: rgba(232, 205, 218, 0.751);
+            --glass-border: rgba(172, 15, 122, 0.868);
             --shadow-light: rgba(0, 0, 0, 0.08);
             --shadow-medium: rgba(0, 0, 0, 0.15);
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            --border-radius: 16px;
+            --border-radius: 10px;
             --container-width: 1400px;
             --header-height: 80px;
         }
 
         /* ===== DARK MODE VARIABLES ===== */
         [data-theme="dark"] {
-            --primary: #e8a0bf;
-            --primary-light: #f0c4d8;
-            --primary-dark: #d481a3;
-            --bg-blush: #1a1a2e;
-            --accent-mauve: #b86a95;
-            --accent-mauve-light: #d481a3;
-            --text-dark: #f0f0f0;
-            --text-light: #a0a0a0;
-            --text-white: #ffffff;
-            --glass-bg: rgba(30, 30, 50, 0.4);
-            --glass-border: rgba(255, 255, 255, 0.15);
+            --primary: #1a9e7b;
+            --primary:  #900d42;
+            --primary-light: #3a9350;
+            --primary-dark: #000000dd;
+            --bg-blush: #aaaaae;
+            --accent-mauve: #c41212;
+            --accent-mauve-light: #c99191;
+            --text-dark: #fcf0f0;
+            --text-light: #fcfdfd;
+            --text-white: #d2cbcb;
+            --glass-bg: rgba(52, 50, 105, 0.892);
+            --glass-border: rgba(201, 15, 77, 0.848);
             --shadow-light: rgba(0, 0, 0, 0.3);
-            --shadow-medium: rgba(0, 0, 0, 0.5);
+            --shadow-medium: rgba(8, 119, 29, 0.5);
         }
 
         /* ===== RESET & BASE STYLES ===== */
@@ -76,7 +80,7 @@
         }
 
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Outfit', sans-serif;
             background-color: var(--bg-blush);
             color: var(--text-dark);
             line-height: 1.6;
@@ -111,23 +115,7 @@
         }
 
         /* ===== CUSTOM CURSOR ===== */
-        .custom-cursor {
-            position: fixed;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: var(--primary);
-            pointer-events: none;
-            z-index: 9999;
-            transition: transform 0.1s ease;
-            mix-blend-mode: difference;
-        }
-
-        .custom-cursor.hover {
-            transform: scale(2);
-            background: var(--accent-mauve);
-        }
-
+     
         /* ===== PRELOADER ===== */
         .preloader {
             position: fixed;
@@ -181,7 +169,7 @@
 
         /* ===== SECTION SPACING ===== */
         section {
-            padding: 100px 0;
+            padding: 40px 0;
         }
 
         /* ===== TYPOGRAPHY ===== */
@@ -202,7 +190,7 @@
             text-align: center;
             color: var(--text-light);
             font-size: 1.1rem;
-            margin-bottom: 60px;
+            margin-bottom: 35px;
             max-width: 600px;
             margin-left: auto;
             margin-right: auto;
@@ -254,6 +242,7 @@
             height: var(--header-height);
             z-index: 1000;
             transition: var(--transition);
+            background-color: #d2c6ce;
         }
 
         .header.scrolled {
@@ -289,8 +278,10 @@
             flex-direction: column;
             gap: 5px;
             background: none;
+            border: none;
             padding: 10px;
-            z-index: 1001;
+            z-index: 10001;
+            cursor: pointer;
         }
 
         .hamburger span {
@@ -315,27 +306,35 @@
         }
 
         /* Mobile Navigation Overlay */
+        /* ===== NAVIGATION PAGE ===== */
         .nav-overlay {
             position: fixed;
-            top: 0;
+            top: var(--header-height);
             left: 0;
             width: 100%;
-            height: 100%;
-            background: var(--glass-bg);
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
+            height: calc(100% - var(--header-height));
+            background: var(--bg-blush);
             z-index: 999;
             display: flex;
-            justify-content: center;
-            align-items: center;
             opacity: 0;
             visibility: hidden;
-            transition: var(--transition);
+            transition: opacity 0.3s ease, visibility 0.3s ease;
         }
 
         .nav-overlay.active {
             opacity: 1;
             visibility: visible;
+        }
+
+        .nav-overlay-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            width: 100%;
+            height: 100%;
+            padding: 30px 20px 20px;
+            overflow-y: auto;
         }
 
         .nav-links {
@@ -344,9 +343,9 @@
         }
 
         .nav-links li {
-            margin: 24px 0;
+            margin: 5px 0;
             opacity: 0;
-            transform: translateY(20px);
+            transform: translateY(30px);
             transition: all 0.4s ease;
         }
 
@@ -355,39 +354,28 @@
             transform: translateY(0);
         }
 
-        .nav-overlay.active .nav-links li:nth-child(1) { transition-delay: 0.1s; }
-        .nav-overlay.active .nav-links li:nth-child(2) { transition-delay: 0.2s; }
-        .nav-overlay.active .nav-links li:nth-child(3) { transition-delay: 0.3s; }
-        .nav-overlay.active .nav-links li:nth-child(4) { transition-delay: 0.4s; }
-        .nav-overlay.active .nav-links li:nth-child(5) { transition-delay: 0.5s; }
-        .nav-overlay.active .nav-links li:nth-child(6) { transition-delay: 0.6s; }
+        .nav-overlay.active .nav-links li:nth-child(1) { transition-delay: 0.05s; }
+        .nav-overlay.active .nav-links li:nth-child(2) { transition-delay: 0.1s; }
+        .nav-overlay.active .nav-links li:nth-child(3) { transition-delay: 0.15s; }
+        .nav-overlay.active .nav-links li:nth-child(4) { transition-delay: 0.2s; }
+        .nav-overlay.active .nav-links li:nth-child(5) { transition-delay: 0.25s; }
+        .nav-overlay.active .nav-links li:nth-child(6) { transition-delay: 0.3s; }
+        .nav-overlay.active .nav-links li:nth-child(7) { transition-delay: 0.35s; }
+        .nav-overlay.active .nav-links li:nth-child(8) { transition-delay: 0.4s; }
+        .nav-overlay.active .nav-links li:nth-child(9) { transition-delay: 0.45s; }
 
         .nav-links a {
             font-family: 'Playfair Display', serif;
-            font-size: 2.5rem;
+            font-size: 1.6rem;
             font-weight: 600;
             color: var(--text-dark);
-            transition: var(--transition);
-            position: relative;
+            transition: color 0.3s ease;
+            display: inline-block;
+            padding: 2px 0;
         }
 
         .nav-links a:hover {
             color: var(--primary);
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 3px;
-            background: var(--primary);
-            transition: width 0.3s ease;
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
         }
 
         /* Dark Mode Toggle */
@@ -412,11 +400,13 @@
         /* ===== HERO SECTION ===== */
         .hero {
             position: relative;
-            height: 100vh;
+            height: 70vh;
+            min-height: 400px;
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
+            padding: 0;
             background: linear-gradient(135deg, var(--bg-blush) 0%, var(--primary-light) 100%);
         }
 
@@ -438,7 +428,7 @@
 
         .hero-title {
             font-size: clamp(2.5rem, 6vw, 4.5rem);
-            margin-bottom: 24px;
+            margin-bottom: 16px;
             color: var(--text-dark);
             animation: fadeInUp 1s ease;
         }
@@ -451,7 +441,7 @@
             font-size: clamp(1rem, 2vw, 1.3rem);
             color: var(--text-light);
             max-width: 700px;
-            margin: 0 auto 40px;
+            margin: 0 auto 24px;
             animation: fadeInUp 1s ease 0.2s both;
         }
 
@@ -516,13 +506,13 @@
             padding: 24px;
             background: linear-gradient(transparent, rgba(0,0,0,0.7));
             color: white;
-            transform: translateY(100%);
+            /* transform: translateY(100%); */
             transition: var(--transition);
         }
 
-        .masonry-item:hover .masonry-overlay {
+        /* .masonry-item:hover .masonry-overlay {
             transform: translateY(0);
-        }
+        } */
 
         /* ===== PROPERTY CARDS ===== */
         .property-card {
@@ -624,7 +614,7 @@
         /* ===== STATISTICS COUNTER ===== */
         .stats-section {
             background: linear-gradient(135deg, var(--accent-mauve), var(--primary));
-            padding: 80px 0;
+            padding: 50px 0;
         }
 
         .stats-grid {
@@ -866,7 +856,7 @@
         /* ===== NEWSLETTER FORM ===== */
         .newsletter-section {
             background: linear-gradient(135deg, var(--primary-light), var(--bg-blush));
-            padding: 80px 0;
+            padding: 50px 0;
         }
 
         .newsletter-content {
@@ -925,8 +915,8 @@
         }
 
         .lightbox-img {
-            max-width: 90%;
-            max-height: 90%;
+            max-width: 100%;
+            max-height: 100%;
             border-radius: 8px;
         }
 
@@ -1140,11 +1130,42 @@
             }
 
             section {
-                padding: 60px 0;
+                padding: 30px 0;
             }
 
             .nav-links a {
-                font-size: 1.8rem;
+                font-size: 1.4rem;
+            }
+            .nav-links li {
+                margin: 5px 0;
+            }
+            .nav-overlay-content {
+                padding: 20px;
+            }
+            .overlay-social {
+                margin-top: 14px;
+            }
+            .overlay-social .social-icon {
+                width: 36px;
+                height: 36px;
+                font-size: 1rem;
+            }
+
+            .pro-listing-card {
+                flex-direction: column !important;
+            }
+            .pro-listing-card .pro-image {
+                min-height: 250px !important;
+            }
+            .pro-listing-card .pro-content {
+                padding: 24px !important;
+            }
+            .premium-features {
+                flex-wrap: wrap;
+            }
+            .premium-btn {
+                font-size: 0.8rem;
+                padding: 8px 16px;
             }
 
             .masonry-grid {
@@ -1215,45 +1236,34 @@
             width: 100% !important;
         }
 
-        /* ===== NAV OVERLAY IMPROVEMENTS ===== */
-        .nav-overlay-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-            padding: 40px;
-        }
-
-        .overlay-logo {
-            font-family: 'Playfair Display', serif;
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--accent-mauve);
-            margin-bottom: 20px;
-        }
-
-        .overlay-logo span {
-            color: var(--primary);
-        }
-
-        .overlay-tagline {
-            color: var(--text-light);
-            margin-bottom: 60px;
-            font-size: 1.1rem;
-        }
-
         .overlay-social {
-            position: absolute;
-            bottom: 60px;
             display: flex;
-            gap: 20px;
+            gap: 16px;
+            margin-top: 20px;
         }
 
         .overlay-social .social-icon {
-            width: 50px;
-            height: 50px;
-            font-size: 1.3rem;
+            width: 44px;
+            height: 44px;
+            font-size: 1.2rem;
+            color: var(--text-dark);
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+        .overlay-social .social-icon:hover {
+            color: #fff;
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+        .overlay-social .social-icon:hover {
+            color: #fff;
+            background: var(--primary);
+            border-color: var(--primary);
         }
 
         /* ===== WHATSAPP WIDGET ===== */
@@ -1438,8 +1448,8 @@
             display: flex;
             gap: 30px;
             align-items: flex-end;
-            height: 300px;
-            margin-top: 40px;
+            min-height: 420px;
+            margin-top: 0px;
             padding: 0 20px;
         }
 
@@ -1651,10 +1661,6 @@
 
         /* ===== RESPONSIVE UPDATES ===== */
         @media (max-width: 768px) {
-            .overlay-social {
-                bottom: 40px;
-            }
-
             .whatsapp-widget {
                 bottom: 90px;
                 right: 20px;
@@ -1682,7 +1688,7 @@
         .about-hero {
             padding-top: calc(var(--header-height) + 60px);
             background: linear-gradient(135deg, var(--bg-blush) 0%, var(--primary-light) 100%);
-            padding-bottom: 60px;
+            padding-bottom: 40px;
         }
 
         .about-content {
@@ -1784,6 +1790,7 @@
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
             gap: 30px;
+            grid-template-columns: 1fr;
         }
 
         @media (max-width: 768px) {
@@ -1791,9 +1798,7 @@
                 grid-template-columns: 1fr;
             }
 
-            .properties-grid {
-                grid-template-columns: 1fr;
-            }
+
         }
     </style>
 </head>
@@ -1802,9 +1807,6 @@
     <div id="preloader" class="preloader">
         <div class="loader"></div>
     </div>
-
-    <!-- Custom Cursor -->
-    <div id="custom-cursor" class="custom-cursor"></div>
 
     <!-- Root Element for React -->
     <div id="root"></div>
@@ -1853,7 +1855,7 @@
                     }
 
                     draw() {
-                        ctx.fillStyle = `rgba(232, 160, 191, ${this.opacity})`;
+                        ctx.fillStyle = `rgba(232, 160, 191, RS{this.opacity})`;
                         ctx.beginPath();
                         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                         ctx.fill();
@@ -1886,6 +1888,18 @@
         };
 
         // ===== HEADER COMPONENT =====
+        const navItems = [
+            { id: 'home', label: 'Home' },
+            { id: 'about', label: 'About' },
+            { id: 'properties', label: 'Properties' },
+            { id: 'pro-listings', label: 'Pro Listings' },
+            { id: 'services', label: 'Services' },
+            { id: 'agents', label: 'Agents' },
+            { id: 'neighborhoods', label: 'Neighborhoods' },
+            { id: 'blog', label: 'Blog' },
+            { id: 'contact', label: 'Contact' }
+        ];
+
         const Header = ({ isMenuOpen, setIsMenuOpen, theme, toggleTheme, currentPage, setCurrentPage }) => {
             const [scrolled, setScrolled] = useState(false);
 
@@ -1897,22 +1911,10 @@
                 return () => window.removeEventListener('scroll', handleScroll);
             }, []);
 
-            const navItems = [
-                { id: 'home', label: 'Home' },
-                { id: 'about', label: 'About' },
-                { id: 'properties', label: 'Properties' },
-                { id: 'pro-listings', label: 'Pro Listings' },
-                { id: 'services', label: 'Services' },
-                { id: 'agents', label: 'Agents' },
-                { id: 'neighborhoods', label: 'Neighborhoods' },
-                { id: 'blog', label: 'Blog' },
-                { id: 'contact', label: 'Contact' }
-            ];
-
             return (
                 <header className={`header ${scrolled ? 'scrolled' : ''}`}>
                     <div className="container">
-                        <a href="#" className="logo" onClick={(e) => { e.preventDefault(); setCurrentPage('home'); }}>
+                        <a href="#" className="logo" onClick={(e) => { e.preventDefault(); window.scrollTo(0, 0); setCurrentPage('home'); }}>
                             Harshit <span>Property</span>
                         </a>
 
@@ -1930,52 +1932,13 @@
                             <i className={theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon'}></i>
                             <span>{theme === 'dark' ? 'Light' : 'Dark'}</span>
                         </button>
-
-                        {/* Navigation Overlay */}
-                        <div className={`nav-overlay ${isMenuOpen ? 'active' : ''}`}>
-                            <div className="nav-overlay-content">
-                                <div className="overlay-logo">Harshit <span>Property</span></div>
-                                <p className="overlay-tagline">Find Your Dream Home</p>
-                                <ul className="nav-links">
-                                    {navItems.map(item => (
-                                        <li key={item.id}>
-                                            <a 
-                                                href="#" 
-                                                className={currentPage === item.id ? 'active' : ''}
-                                                onClick={(e) => {
-                                                    e.preventDefault();
-                                                    setCurrentPage(item.id);
-                                                    setIsMenuOpen(false);
-                                                }}
-                                            >
-                                                {item.label}
-                                            </a>
-                                        </li>
-                                    ))}
-                                </ul>
-                                <div className="overlay-social">
-                                    <a href="#" className="social-icon" aria-label="Facebook">
-                                        <i className="fab fa-facebook-f"></i>
-                                    </a>
-                                    <a href="#" className="social-icon" aria-label="Instagram">
-                                        <i className="fab fa-instagram"></i>
-                                    </a>
-                                    <a href="#" className="social-icon" aria-label="Twitter">
-                                        <i className="fab fa-twitter"></i>
-                                    </a>
-                                    <a href="#" className="social-icon" aria-label="LinkedIn">
-                                        <i className="fab fa-linkedin-in"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </header>
             );
         };
 
-        // ===== HERO SECTION COMPONENT =====
-        const HeroSection = () => {
+// ===== HERO SECTION COMPONENT =====
+        const HeroSection = ({ setCurrentPage }) => {
             return (
                 <section className="hero" id="home">
                     <ParticleCanvas />
@@ -1987,10 +1950,10 @@
                             Discover exceptional properties with Harshit Property. We make finding your perfect home a seamless and memorable experience with our expert guidance and curated listings.
                         </p>
                         <div className="hero-buttons">
-                            <a href="#" className="btn btn-primary" onClick={(e) => { e.preventDefault(); }}>
+                            <a href="#" className="btn btn-primary" onClick={(e) => { e.preventDefault(); window.scrollTo(0, 0); setCurrentPage('properties'); }}>
                                 <i className="fas fa-search"></i> Browse Properties
                             </a>
-                            <a href="#" className="btn btn-glass" onClick={(e) => { e.preventDefault(); }}>
+                            <a href="https://youtube.com/shorts/BzwXGJZ4KbM?si=_g06s3NCpmngYjDU" className="btn btn-glass" target="_blank" rel="noopener noreferrer">
                                 <i className="fas fa-play-circle"></i> Watch Video
                             </a>
                         </div>
@@ -1999,7 +1962,7 @@
             );
         };
 
-        // ===== STATS SECTION COMPONENT =====
+// ===== STATS SECTION COMPONENT =====
         const StatsSection = () => {
             const [counters, setCounters] = useState({
                 properties: 0,
@@ -2068,79 +2031,79 @@
             );
         };
 
-        // ===== FEATURED PROPERTIES COMPONENT =====
+// ===== FEATURED PROPERTIES COMPONENT =====
         const FeaturedProperties = () => {
             const properties = [
                 {
                     id: 1,
-                    title: "Luxury Villa in Beverly Hills",
-                    price: "$2,850,000",
-                    location: "Beverly Hills, CA",
+                    title: "Luxury Villa in Govindpuram",
+                    price: "₹2,850,000",
+                    location: "Govindpuram, Ghaziabad, Uttar Pradesh",
                     beds: 5,
                     baths: 4,
                     sqft: "4,200",
-                    image: "https://picsum.photos/seed/prop1/600/400",
+                    image: "https://images.unsplash.com/photo-1600573472550-8090b5e0745e?q=80&w=1200&auto=format&fit=crop",
                     badge: "Featured"
                 },
                 {
                     id: 2,
-                    title: "Modern Apartment Downtown",
-                    price: "$750,000",
-                    location: "New York, NY",
+                    title: "Modern Apartment in Ghaziabad",
+                    price: "₹750,000",
+                    location: "Govindpuram, Ghaziabad, Uttar Pradesh",
                     beds: 3,
                     baths: 2,
                     sqft: "1,800",
-                    image: "https://picsum.photos/seed/prop2/600/400",
+                    image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1200&auto=format&fit=crop",
                     badge: "New"
                 },
                 {
                     id: 3,
-                    title: "Cozy Family Home",
-                    price: "$1,200,000",
-                    location: "Austin, TX",
+                    title: "Cozy Family Home in Govindpuram",
+                    price: "₹1,200,000",
+                    location: "Govindpuram, Ghaziabad, Uttar Pradesh",
                     beds: 4,
                     baths: 3,
                     sqft: "2,800",
-                    image: "https://picsum.photos/seed/prop3/600/400",
+                    image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=1200&auto=format&fit=crop",
                     badge: "Sale"
                 },
                 {
                     id: 4,
-                    title: "Waterfront Penthouse",
-                    price: "$3,500,000",
-                    location: "Miami, FL",
+                    title: "Waterfront Penthouse Ghaziabad",
+                    price: "₹3,500,000",
+                    location: "Govindpuram, Ghaziabad, Uttar Pradesh",
                     beds: 6,
                     baths: 5,
                     sqft: "5,000",
-                    image: "https://picsum.photos/seed/prop4/600/400",
+                    image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop",
                     badge: "Luxury"
                 },
                 {
                     id: 5,
-                    title: "Suburban Dream House",
-                    price: "$950,000",
-                    location: "Seattle, WA",
+                    title: "Dream House in Govindpuram",
+                    price: "₹950,000",
+                    location: "Govindpuram, Ghaziabad, Uttar Pradesh",
                     beds: 4,
                     baths: 3,
                     sqft: "3,000",
-                    image: "https://picsum.photos/seed/prop5/600/400",
+                    image:   "https://images.unsplash.com/photo-1570129477492-45c003edd2be?q=80&w=1200&auto=format&fit=crop",
                     badge: "Popular"
                 },
                 {
                     id: 6,
-                    title: "Mountain View Estate",
-                    price: "$1,800,000",
-                    location: "Denver, CO",
+                    title: "Mountain View Estate Ghaziabad",
+                    price: "₹1,800,000",
+                    location: "Govindpuram, Ghaziabad, Uttar Pradesh",
                     beds: 5,
                     baths: 4,
                     sqft: "4,500",
-                    image: "https://picsum.photos/seed/prop6/600/400",
+                    image: "https://images.unsplash.com/photo-1568605114967-8130f3a36994?q=80&w=1200&auto=format&fit=crop",
                     badge: "Exclusive"
                 }
             ];
 
             return (
-                <section id="properties" style={{ paddingTop: '100px' }}>
+                <section id="properties" style={{ paddingTop: '50px'  }}>
                     <div className="container">
                         <h2 className="section-title fade-in">Featured Properties</h2>
                         <p className="section-subtitle fade-in">
@@ -2179,8 +2142,372 @@
                 </section>
             );
         };
+        const MasonryGallery = () => {
 
-        // ===== TESTIMONIALS COMPONENT =====
+    const [lightboxOpen, setLightboxOpen] = useState(false);
+    const [selectedIndex, setSelectedIndex] = useState(0);
+
+    /* ======================================================
+       PREMIUM REAL ESTATE IMAGES
+    ====================================================== */
+
+    const galleryImages = [
+
+        {
+            id: 1,
+            src: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop",
+            title: "Luxury Villa",
+            category: "Modern Exterior"
+        },
+
+        {
+            id: 2,
+            src: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=1200&auto=format&fit=crop",
+            title: "Elegant Living Room",
+            category: "Interior Design"
+        },
+
+        {
+            id: 3,
+            src: "https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?q=80&w=1200&auto=format&fit=crop",
+            title: "Premium Bedroom",
+            category: "Luxury Comfort"
+        },
+
+        {
+            id: 4,
+            src: "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?q=80&w=1200&auto=format&fit=crop",
+            title: "Modern Kitchen",
+            category: "Smart Space"
+        },
+
+        {
+            id: 5,
+            src: "https://images.unsplash.com/photo-1600607687644-c7171b42498f?q=80&w=1200&auto=format&fit=crop",
+            title: "Private Pool",
+            category: "Outdoor Luxury"
+        },
+
+        {
+            id: 6,
+            src: "https://images.unsplash.com/photo-1600210492493-0946911123ea?q=80&w=1200&auto=format&fit=crop",
+            title: "Luxury Bathroom",
+            category: "Minimal Interior"
+        },
+
+        {
+            id: 7,
+            src: "https://images.unsplash.com/photo-1600573472550-8090b5e0745e?q=80&w=1200&auto=format&fit=crop",
+            title: "Dining Space",
+            category: "Modern Lifestyle"
+        },
+
+      
+    ];
+
+    /* ======================================================
+       LIGHTBOX
+    ====================================================== */
+
+    const openLightbox = (index) => {
+
+        setSelectedIndex(index);
+
+        setLightboxOpen(true);
+    };
+
+    const nextImage = (e) => {
+
+        e.stopPropagation();
+
+        setSelectedIndex(
+            (prev) => (prev + 1) % galleryImages.length
+        );
+    };
+
+    const prevImage = (e) => {
+
+        e.stopPropagation();
+
+        setSelectedIndex(
+            (prev) =>
+                prev === 0
+                    ? galleryImages.length - 1
+                    : prev - 1
+        );
+    };
+
+    return (
+
+        <section
+            style={{
+                padding: "60px 0",
+                position: "relative"
+            }}
+        >
+
+            {/* Background Glow */}
+
+            <div className="bg-blur blur-1"></div>
+            <div className="bg-blur blur-2"></div>
+
+            <div className="container">
+
+                {/* Header */}
+
+                <div
+                    style={{
+                        textAlign: "center",
+                        marginBottom: "20px"
+                    }}
+                >
+
+                    <h2
+                        className="section-title fade-in"
+                        style={{
+                            marginTop: "15px"
+                        }}
+                    >
+                        Explore Dream Properties
+                    </h2>
+
+                    <p className="section-subtitle fade-in">
+
+                        Experience premium interiors,
+                        luxury architecture, and modern living
+                        spaces crafted for elegance.
+
+                    </p>
+
+                </div>
+
+                {/* Gallery */}
+
+                <div className="masonry-grid">
+
+                    {galleryImages.map((image, index) => (
+
+                        <div
+
+                            key={image.id}
+
+                            className="masonry-item fade-in"
+
+                            onClick={() => openLightbox(index)}
+
+                            style={{
+                                position: "relative",
+                                overflow: "hidden"
+                            }}
+                        >
+
+                            {/* Image */}
+
+                            <img
+
+                                src={image.src}
+
+                                alt={image.title}
+
+                                loading="lazy"
+
+                                style={{
+                                    width: "100%",
+                                    display: "block",
+                                    transition: "transform 0.7s ease"
+                                }}
+                            />
+
+                            {/* Overlay */}
+
+                            <div
+                                className="masonry-overlay"
+                                style={{
+                                    padding: "25px"
+                                }}
+                            >
+
+                                <span
+                                    style={{
+                                        fontSize: "0.8rem",
+                                        color: "#FACC15",
+                                        letterSpacing: "1px",
+                                        textTransform: "uppercase"
+                                    }}
+                                >
+                                    {image.category}
+                                </span>
+
+                                <h3
+                                    style={{
+                                        color: "white",
+                                        marginTop: "8px",
+                                        fontSize: "1.4rem",
+                                        fontWeight: "600"
+                              
+                                    }}
+                                >
+                                    {image.title}
+                                </h3>
+
+                             <p
+                                style={{
+                                    color: "rgba(55,255,255,0.75)",
+                                    marginTop: "10px",
+                                    fontSize: "0.95rem"
+                                }}
+                            >   
+
+                                    <i className="fas fa-expand"></i>
+
+                                    {" "}View Fullscreen
+
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    ))}
+
+                </div>
+
+            </div>
+
+            // {/* ==================================================
+            //    PREMIUM LIGHTBOX
+            // =================================================== */}
+
+            {lightboxOpen && (
+
+                <div
+
+                    className="lightbox active"
+
+                    onClick={() => setLightboxOpen(false)}
+
+                    style={{
+                        backdropFilter: "blur(18px)"
+                    }}
+                >
+
+                    {/* Previous */}
+
+                    <button
+
+                        className="lightbox-nav lightbox-prev"
+
+                        onClick={prevImage}
+                    >
+
+                        <i className="fas fa-chevron-left"></i>
+
+                    </button>
+
+                    {/* Image */}
+
+                 <div
+    style={{
+        maxWidth: "90%",
+        maxHeight: "90%",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center"
+    }}
+>
+    <div
+        style={{
+            position: "relative",
+            borderRadius: "24px",
+            overflow: "hidden",
+            boxShadow: "0 20px 80px rgba(0,0,0,0.5)"
+        }}
+    >
+
+        <img
+            src={galleryImages[selectedIndex].src}
+            alt={galleryImages[selectedIndex].title}
+            className="lightbox-img"
+            style={{
+                display: "block",
+                width: "100%",
+                maxHeight: "85vh",
+                objectFit: "cover"
+            }}
+        />
+
+        {/* Caption */}
+        <div
+            style={{
+                position: "absolute",
+                bottom: "20px",
+                left: "20px",
+                right: "20px",
+                padding: "20px",
+                borderRadius: "18px",
+                background: "rgba(0,0,0,0.35)",
+                backdropFilter: "blur(12px)"
+            }}
+        >
+            <span
+                style={{
+                    color: "#FACC15",
+                    fontSize: "0.8rem",
+                    textTransform: "uppercase",
+                    letterSpacing: "1px",
+                    fontWeight: "600"
+                }}
+            >
+                {galleryImages[selectedIndex].category}
+            </span>
+
+            <h3
+                style={{
+                    color: "white",
+                    marginTop: "8px",
+                    fontSize: "1.5rem",
+                    fontWeight: "700"
+                }}
+            >
+                {galleryImages[selectedIndex].title}
+            </h3>
+        </div>
+
+    </div>
+</div>
+
+     {/* Next */}
+                    <button
+
+                        className="lightbox-nav lightbox-next"
+
+                        onClick={nextImage}
+                    >
+
+                        <i className="fas fa-chevron-right"></i>
+
+                    </button>
+
+                    {/* Close */}
+
+                    <button
+
+                        className="lightbox-close"
+
+                        onClick={() => setLightboxOpen(false)}
+                    >
+
+                        <i className="fas fa-times"></i>
+
+                    </button>
+
+                </div>
+            )}
+
+        </section>
+    );
+};
+// ===== TESTIMONIALS COMPONENT =====
         const TestimonialCarousel = () => {
             const [currentSlide, setCurrentSlide] = useState(0);
 
@@ -2213,7 +2540,7 @@
             }, []);
 
             return (
-                <section style={{ padding: '100px 0', background: 'var(--bg-blush)' }}>
+                <section style={{ paddingTop: '0px', paddingBottom: '0px' , background: 'var(--bg-blush)' }}>
                     <div className="container">
                         <h2 className="section-title fade-in">What Our Clients Say</h2>
                         <p className="section-subtitle fade-in">
@@ -2267,7 +2594,7 @@
             );
         };
 
-        // ===== FAQ COMPONENT =====
+ // ===== FAQ COMPONENT =====
         const FAQSection = () => {
             const [activeIndex, setActiveIndex] = useState(null);
 
@@ -2295,7 +2622,7 @@
             ];
 
             return (
-                <section style={{ padding: '100px 0' }}>
+               <section style={{ paddingTop: '40px', paddingBottom: '40px' }}>
                     <div className="container">
                         <h2 className="section-title fade-in">Frequently Asked Questions</h2>
                         <p className="section-subtitle fade-in">
@@ -2328,7 +2655,8 @@
             );
         };
 
-        // ===== CONTACT FORM COMPONENT =====
+
+// ===== CONTACT FORM COMPONENT =====
         const ContactSection = () => {
             const [formData, setFormData] = useState({
                 name: '',
@@ -2373,19 +2701,18 @@
             };
 
             return (
-                <section id="contact" style={{ paddingTop: '100px' }}>
+                <section id="contact" style={{ paddingTop: '0px', paddingBottom: '30px' }}>
+                    
                     <div className="container">
                         <h2 className="section-title fade-in">Get in Touch</h2>
                         <p className="section-subtitle fade-in">
                             Have questions or ready to find your dream home? Reach out to us today
                         </p>
                         {submitted ? (
-                            <div style={{ 
+                            <div className="contact-form" style={{ 
                                 textAlign: 'center', 
-                                padding: '40px', 
-                                background: 'var(--glass-bg)', 
-                                backdropFilter: 'blur(12px)',
-                                borderRadius: 'var(--border-radius)',
+                                padding: '40px',
+                                border: '1px solid var(--glass-border)',
                                 color: 'var(--accent-mauve)'
                             }}>
                                 <i className="fas fa-check-circle" style={{ fontSize: '3rem', marginBottom: '16px' }}></i>
@@ -2393,7 +2720,7 @@
                                 <p>We'll get back to you within 24 hours.</p>
                             </div>
                         ) : (
-                            <form className="contact-form fade-in" onSubmit={handleSubmit}>
+                            <form className="contact-form" onSubmit={handleSubmit}>
                                 <div className="form-group">
                                     <label className="form-label" htmlFor="name">Full Name *</label>
                                     <input
@@ -2457,7 +2784,8 @@
             );
         };
 
-        // ===== NEWSLETTER COMPONENT =====
+
+// ===== NEWSLETTER COMPONENT =====
         const NewsletterSection = () => {
             const [email, setEmail] = useState('');
             const [subscribed, setSubscribed] = useState(false);
@@ -2507,70 +2835,11 @@
             );
         };
 
-        // ===== MASONRY GALLERY COMPONENT =====
-        const MasonryGallery = () => {
-            const [lightboxOpen, setLightboxOpen] = useState(false);
-            const [selectedImage, setSelectedImage] = useState(null);
-
-            const galleryImages = [
-                { id: 1, src: "https://picsum.photos/seed/gallery1/600/800", alt: "Modern Living Room" },
-                { id: 2, src: "https://picsum.photos/seed/gallery2/600/600", alt: "Luxury Kitchen" },
-                { id: 3, src: "https://picsum.photos/seed/gallery3/600/900", alt: "Master Bedroom" },
-                { id: 4, src: "https://picsum.photos/seed/gallery4/600/700", alt: "Swimming Pool" },
-                { id: 5, src: "https://picsum.photos/seed/gallery5/600/650", alt: "Garden View" },
-                { id: 6, src: "https://picsum.photos/seed/gallery6/600/750", alt: "Rooftop Terrace" },
-                { id: 7, src: "https://picsum.photos/seed/gallery7/600/850", alt: "Home Office" },
-                { id: 8, src: "https://picsum.photos/seed/gallery8/600/700", alt: "Dining Area" }
-            ];
-
-            const openLightbox = (image) => {
-                setSelectedImage(image);
-                setLightboxOpen(true);
-            };
-
-            return (
-                <section style={{ padding: '100px 0' }}>
-                    <div className="container">
-                        <h2 className="section-title fade-in">Property Gallery</h2>
-                        <p className="section-subtitle fade-in">
-                            Take a visual tour of our stunning properties and envision your dream home
-                        </p>
-                        <div className="masonry-grid">
-                            {galleryImages.map((image) => (
-                                <div 
-                                    key={image.id} 
-                                    className="masonry-item fade-in"
-                                    onClick={() => openLightbox(image)}
-                                >
-                                    <img src={image.src} alt={image.alt} loading="lazy" />
-                                    <div className="masonry-overlay">
-                                        <h3 style={{ color: 'white', fontSize: '1.2rem' }}>{image.alt}</h3>
-                                        <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.9rem' }}>
-                                            <i className="fas fa-search-plus"></i> Click to enlarge
-                                        </p>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* Lightbox */}
-                    {lightboxOpen && selectedImage && (
-                        <div className="lightbox active" onClick={() => setLightboxOpen(false)}>
-                            <img src={selectedImage.src} alt={selectedImage.alt} className="lightbox-img" />
-                            <button className="lightbox-close" aria-label="Close lightbox">
-                                <i className="fas fa-times"></i>
-                            </button>
-                        </div>
-                    )}
-                </section>
-            );
-        };
-
-        // ===== GOOGLE MAPS COMPONENT =====
+   
+// ===== GOOGLE MAPS COMPONENT =====
         const MapSection = () => {
             return (
-                <section style={{ padding: '100px 0' }}>
+                <section style={{ padding: '50px 0' }}>
                     <div className="container">
                         <h2 className="section-title fade-in">Visit Our Office</h2>
                         <p className="section-subtitle fade-in">
@@ -2578,7 +2847,7 @@
                         </p>
                         <div className="map-container fade-in">
                             <iframe 
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d387190.2799182225!2d-74.25987564650538!3d40.69767006864659!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY!5e0!3m2!1sen!2sus!4v1700000000000!5m2!1sen!2sus"
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d56044.89700594779!2d77.46325633121399!3d28.688482426944794!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cf155c02e83c5%3A0x27d8ed6b7f0b8ed0!2sGovindpuram%2C%20Ghaziabad%2C%20Uttar%20Pradesh!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
                                 allowFullScreen
                                 loading="lazy"
                                 referrerPolicy="no-referrer-when-downgrade"
@@ -2590,8 +2859,21 @@
             );
         };
 
-        // ===== FOOTER COMPONENT =====
-        const Footer = () => {
+
+ // ===== FOOTER COMPONENT =====
+        const Footer = ({ setCurrentPage }) => {
+            const quickLinks = [
+                { label: 'Home', page: 'home' },
+                { label: 'About Us', page: 'about' },
+                { label: 'Properties', page: 'properties' },
+                { label: 'Pro Listings', page: 'pro-listings' },
+                { label: 'Services', page: 'services' },
+                { label: 'Agents', page: 'agents' },
+                { label: 'Neighborhoods', page: 'neighborhoods' },
+                { label: 'Blog', page: 'blog' },
+                { label: 'Contact', page: 'contact' }
+            ];
+
             return (
                 <footer className="footer">
                     <div className="container">
@@ -2619,11 +2901,11 @@
                             <div className="footer-column">
                                 <h3>Quick Links</h3>
                                 <ul className="footer-links">
-                                    <li><a href="#">Home</a></li>
-                                    <li><a href="#">About Us</a></li>
-                                    <li><a href="#">Properties</a></li>
-                                    <li><a href="#">Services</a></li>
-                                    <li><a href="#">Contact</a></li>
+                                    {quickLinks.map(link => (
+                                        <li key={link.page}>
+                                            <a href="#" onClick={(e) => { e.preventDefault(); window.scrollTo(0, 0); setCurrentPage(link.page); }}>{link.label}</a>
+                                        </li>
+                                    ))}
                                 </ul>
                             </div>
                             <div className="footer-column">
@@ -2640,11 +2922,11 @@
                                 <h3>Contact Info</h3>
                                 <div className="footer-contact-item">
                                     <i className="fas fa-map-marker-alt"></i>
-                                    <span>123 Dream Home Street, Suite 100, New York, NY 10001</span>
+                                    <span>Ghaziabad, Govindpuram(U.P)</span>
                                 </div>
                                 <div className="footer-contact-item">
                                     <i className="fas fa-phone"></i>
-                                    <span>+1 (555) 123-4567</span>
+                                    <span>9760971378</span>
                                 </div>
                                 <div className="footer-contact-item">
                                     <i className="fas fa-envelope"></i>
@@ -2664,7 +2946,8 @@
             );
         };
 
-        // ===== ABOUT PAGE COMPONENT =====
+ 
+ // ===== ABOUT PAGE COMPONENT =====
         const AboutPage = () => {
             return (
                 <div className="page active" style={{ paddingTop: 'var(--header-height)' }}>
@@ -2677,14 +2960,14 @@
                         </div>
                     </section>
 
-                    <section style={{ padding: '100px 0' }}>
-                        <div className="container">
-                            <div className="about-content">
-                                <div className="about-image fade-in">
-                                    <img src="https://picsum.photos/seed/about/600/400" alt="About Harshit Property" />
-                                </div>
-                                <div className="about-text fade-in">
-                                    <h2>Our Story</h2>
+                        <section style={{ padding: '60px 0' }}>
+                            <div className="container">
+                                <div className="about-content">
+                                    <div className="about-image fade-in">
+                                        <img src="https://picsum.photos/seed/about/600/400" alt="About Harshit Property" />
+                                    </div>
+                                    <div className="about-text fade-in">
+                                        <h2>Our Story</h2>
                                     <p>
                                         Founded with a vision to revolutionize the real estate experience, Harshit Property has grown from a small local agency to a trusted name in the industry. Our journey began with a simple belief: everyone deserves a home they love.
                                     </p>
@@ -2704,9 +2987,9 @@
 
                     <StatsSection />
 
-                    <section style={{ padding: '100px 0' }}>
-                        <div className="container">
-                            <h2 className="section-title fade-in">Our Values</h2>
+                        <section style={{ padding: '60px 0' }}>
+                            <div className="container">
+                                <h2 className="section-title fade-in">Our Values</h2>
                             <div className="services-grid">
                                 <div className="service-card fade-in">
                                     <div className="service-icon">
@@ -2742,7 +3025,8 @@
             );
         };
 
-        // ===== SERVICES PAGE COMPONENT =====
+
+ // ===== SERVICES PAGE COMPONENT =====
         const ServicesPage = () => {
             const services = [
                 {
@@ -2794,10 +3078,10 @@
                         </div>
                     </section>
 
-                    <section style={{ padding: '100px 0' }}>
-                        <div className="container">
-                            <div className="services-grid">
-                                {services.map((service, index) => (
+                        <section style={{ padding: '60px 0' }}>
+                            <div className="container">
+                                <div className="services-grid">
+                                    {services.map((service, index) => (
                                     <div key={index} className="service-card fade-in">
                                         <div className="service-icon">
                                             <i className={service.icon}></i>
@@ -2821,20 +3105,27 @@
             );
         };
 
-        // ===== PROPERTIES PAGE COMPONENT =====
+        
+ // ===== PROPERTIES PAGE COMPONENT =====
         const PropertiesPage = () => {
             const [activeFilter, setActiveFilter] = useState('all');
 
+            useEffect(() => {
+                setTimeout(() => {
+                    document.querySelectorAll('.properties-grid .property-card').forEach(el => el.classList.add('visible'));
+                }, 150);
+            }, [activeFilter]);
+
             const properties = [
-                { id: 1, title: "Luxury Villa in Beverly Hills", price: "$2,850,000", location: "Beverly Hills, CA", beds: 5, baths: 4, sqft: "4,200", image: "https://picsum.photos/seed/prop1/600/400", type: "luxury", badge: "Featured" },
-                { id: 2, title: "Modern Apartment Downtown", price: "$750,000", location: "New York, NY", beds: 3, baths: 2, sqft: "1,800", image: "https://picsum.photos/seed/prop2/600/400", type: "apartment", badge: "New" },
-                { id: 3, title: "Cozy Family Home", price: "$1,200,000", location: "Austin, TX", beds: 4, baths: 3, sqft: "2,800", image: "https://picsum.photos/seed/prop3/600/400", type: "family", badge: "Sale" },
-                { id: 4, title: "Waterfront Penthouse", price: "$3,500,000", location: "Miami, FL", beds: 6, baths: 5, sqft: "5,000", image: "https://picsum.photos/seed/prop4/600/400", type: "luxury", badge: "Luxury" },
-                { id: 5, title: "Suburban Dream House", price: "$950,000", location: "Seattle, WA", beds: 4, baths: 3, sqft: "3,000", image: "https://picsum.photos/seed/prop5/600/400", type: "family", badge: "Popular" },
-                { id: 6, title: "Mountain View Estate", price: "$1,800,000", location: "Denver, CO", beds: 5, baths: 4, sqft: "4,500", image: "https://picsum.photos/seed/prop6/600/400", type: "luxury", badge: "Exclusive" },
-                { id: 7, title: "City Loft Apartment", price: "$680,000", location: "Chicago, IL", beds: 2, baths: 2, sqft: "1,400", image: "https://picsum.photos/seed/prop7/600/400", type: "apartment", badge: "New" },
-                { id: 8, title: "Garden View Villa", price: "$1,500,000", location: "Portland, OR", beds: 4, baths: 3, sqft: "3,200", image: "https://picsum.photos/seed/prop8/600/400", type: "family", badge: "Featured" },
-                { id: 9, title: "Penthouse with Terrace", price: "$2,200,000", location: "San Francisco, CA", beds: 3, baths: 3, sqft: "2,800", image: "https://picsum.photos/seed/prop9/600/400", type: "luxury", badge: "Luxury" }
+                { id: 1, title: "Luxury Villa in Govindpuram", price: "₹2,850,000", location: "Govindpuram, Ghaziabad, Uttar Pradesh", beds: 5, baths: 4, sqft: "4,200", image: "https://picsum.photos/seed/prop1/600/400", type: "luxury", badge: "Featured" },
+                { id: 2, title: "Modern Apartment in Ghaziabad", price: "₹750,000", location: "Govindpuram, Ghaziabad, Uttar Pradesh", beds: 3, baths: 2, sqft: "1,800", image: "https://picsum.photos/seed/prop2/600/400", type: "apartment", badge: "New" },
+                { id: 3, title: "Cozy Family Home in Govindpuram", price: "₹1,200,000", location: "Govindpuram, Ghaziabad, Uttar Pradesh", beds: 4, baths: 3, sqft: "2,800", image: "https://picsum.photos/seed/prop3/600/400", type: "family", badge: "Sale" },
+                { id: 4, title: "Waterfront Penthouse Ghaziabad", price: "₹3,500,000", location: "Govindpuram, Ghaziabad, Uttar Pradesh", beds: 6, baths: 5, sqft: "5,000", image: "https://picsum.photos/seed/prop4/600/400", type: "luxury", badge: "Luxury" },
+                { id: 5, title: "Dream House in Govindpuram", price: "₹950,000", location: "Govindpuram, Ghaziabad, Uttar Pradesh", beds: 4, baths: 3, sqft: "3,000", image: "https://picsum.photos/seed/prop5/600/400", type: "family", badge: "Popular" },
+                { id: 6, title: "Mountain View Estate Ghaziabad", price: "₹1,800,000", location: "Govindpuram, Ghaziabad, Uttar Pradesh", beds: 5, baths: 4, sqft: "4,500", image: "https://picsum.photos/seed/prop6/600/400", type: "luxury", badge: "Exclusive" },
+                { id: 7, title: "City Loft Apartment Ghaziabad", price: "₹680,000", location: "Govindpuram, Ghaziabad, Uttar Pradesh", beds: 2, baths: 2, sqft: "1,400", image: "https://picsum.photos/seed/prop7/600/400", type: "apartment", badge: "New" },
+                { id: 8, title: "Garden View Villa Govindpuram", price: "₹1,500,000", location: "Govindpuram, Ghaziabad, Uttar Pradesh", beds: 4, baths: 3, sqft: "3,200", image: "https://picsum.photos/seed/prop8/600/400", type: "family", badge: "Featured" },
+                { id: 9, title: "Penthouse with Terrace Ghaziabad", price: "₹2,200,000", location: "Govindpuram, Ghaziabad, Uttar Pradesh", beds: 3, baths: 3, sqft: "2,800", image: "https://picsum.photos/seed/prop9/600/400", type: "luxury", badge: "Luxury" }
             ];
 
             const filters = [
@@ -2859,9 +3150,9 @@
                         </div>
                     </section>
 
-                    <section style={{ padding: '60px 0 100px' }}>
-                        <div className="container">
-                            <div className="properties-filter">
+                        <section style={{ padding: '50px 0 60px' }}>
+                            <div className="container">
+                                <div className="properties-filter">
                                 {filters.map(filter => (
                                     <button
                                         key={filter.id}
@@ -2907,7 +3198,8 @@
             );
         };
 
-        // ===== DREAM HOME QUIZ COMPONENT =====
+
+ // ===== DREAM HOME QUIZ COMPONENT =====
         const DreamHomeQuiz = () => {
             const [answers, setAnswers] = useState({});
             const [showResult, setShowResult] = useState(false);
@@ -2916,7 +3208,7 @@
                 {
                     id: 'budget',
                     question: 'What is your budget range?',
-                    options: ['$500K - $1M', '$1M - $2M', '$2M - $5M', '$5M+']
+                    options: ['₹500K - ₹1M', '₹1M - ₹2M', '₹2M - ₹5M', '₹5M+']
                 },
                 {
                     id: 'type',
@@ -2936,14 +3228,14 @@
 
             const getRecommendation = () => {
                 const budget = answers.budget || '';
-                if (budget.includes('$5M')) return 'Luxury Villa in Beverly Hills';
-                if (budget.includes('$2M')) return 'Waterfront Penthouse in Miami';
-                if (budget.includes('$1M')) return 'Modern Family Home in Austin';
+                if (budget.includes('₹5M')) return 'Luxury Villa in Beverly Hills';
+                if (budget.includes('₹2M')) return 'Waterfront Penthouse in Miami';
+                if (budget.includes('₹1M')) return 'Modern Family Home in Austin';
                 return 'Cozy Apartment in Downtown';
             };
 
             return (
-                <section style={{ padding: '100px 0', background: 'var(--bg-blush)' }}>
+                <section style={{ padding: '50px 0', background: 'var(--bg-blush)' }}>
                     <div className="container">
                         <h2 className="section-title fade-in">Find Your Perfect Match</h2>
                         <p className="section-subtitle fade-in">Take our quick quiz to discover properties tailored to your preferences</p>
@@ -2985,305 +3277,1270 @@
             );
         };
 
-        // ===== MARKET TRENDS COMPONENT =====
+
+ // ===== PREMIUM MARKET TRENDS COMPONENT =====
         const MarketTrends = () => {
-            const [animated, setAnimated] = useState(false);
 
-            useEffect(() => {
-                const observer = new IntersectionObserver(
-                    ([entry]) => {
-                        if (entry.isIntersecting) setAnimated(true);
-                    },
-                    { threshold: 0.3 }
-                );
-                const el = document.getElementById('market-trends-chart');
-                if (el) observer.observe(el);
-                return () => observer.disconnect();
-            }, []);
+    const [animated, setAnimated] = useState(false);
 
-            const trends = [
-                { month: 'Jan', value: 40, price: '$850K' },
-                { month: 'Feb', value: 55, price: '$920K' },
-                { month: 'Mar', value: 48, price: '$880K' },
-                { month: 'Apr', value: 70, price: '$1.1M' },
-                { month: 'May', value: 65, price: '$1.05M' },
-                { month: 'Jun', value: 85, price: '$1.3M' },
-                { month: 'Jul', value: 78, price: '$1.25M' },
-                { month: 'Aug', value: 90, price: '$1.4M' }
-            ];
+    useEffect(() => {
 
-            return (
-                <section style={{ padding: '100px 0' }}>
-                    <div className="container">
-                        <h2 className="section-title fade-in">Market Trends</h2>
-                        <p className="section-subtitle fade-in">Real-time insights into property market performance</p>
-                        <div id="market-trends-chart" className="market-trends fade-in">
-                            {trends.map((t, i) => (
-                                <div key={i} className="trend-bar">
-                                    <div className="bar-value">{t.price}</div>
-                                    <div 
-                                        className={`bar ${animated ? 'animated' : ''}`}
-                                        style={{ '--bar-height': animated ? `${t.value}%` : '0%' }}
-                                    ></div>
-                                    <div className="bar-label">{t.month}</div>
+        const observer = new IntersectionObserver(
+
+            ([entry]) => {
+
+                if (entry.isIntersecting) {
+
+                    setAnimated(true);
+                }
+            },
+
+            {
+                threshold: 0.3
+            }
+        );
+
+        const el = document.getElementById(
+            "market-trends-chart"
+        );
+
+        if (el) observer.observe(el);
+
+        return () => observer.disconnect();
+
+    }, []);
+
+    const trends = [
+
+        {
+            month: "Jan",
+            value: 40,
+            price: "₹850K",
+            growth: "+12%"
+        },
+
+        {
+            month: "Feb",
+            value: 55,
+            price: "₹920K",
+            growth: "+18%"
+        },
+
+        {
+            month: "Mar",
+            value: 48,
+            price: "₹880K",
+            growth: "+10%"
+        },
+
+        {
+            month: "Apr",
+            value: 70,
+            price: "₹1.1M",
+            growth: "+25%"
+        },
+
+        {
+            month: "May",
+            value: 65,
+            price: "₹1.05M",
+            growth: "+22%"
+        },
+
+        {
+            month: "Jun",
+            value: 85,
+            price: "₹1.3M",
+            growth: "+35%"
+        },
+
+        {
+            month: "Jul",
+            value: 78,
+            price: "₹1.25M",
+            growth: "+30%"
+        },
+
+        {
+            month: "Aug",
+            value: 90,
+            price: "₹1.4M",
+            growth: "+40%"
+        }
+    ];
+
+    return (
+
+        <section
+            style={{
+                paddingTop: "0",
+                paddingBottom: "60px",
+                position: "relative",
+                overflow: "hidden"
+            }}
+        >
+
+            {/* =========================================
+               BACKGROUND BLUR EFFECTS
+            ========================================== */}
+
+            <div className="bg-blur blur-1"></div>
+
+            <div className="bg-blur blur-2"></div>
+
+            <div className="container">
+
+                {/* =========================================
+                   HEADER
+                ========================================== */}
+
+                <div
+                    style={{
+                        textAlign: "center",
+                        marginBottom: "70px"
+                    }}
+                >
+        
+
+                    <h2
+                        className="section-title"
+                        style={{
+                            marginTop: "14px",
+                            marginBottom: "18px"
+                        }}
+                    >
+                        Real Estate Market Trends
+                    </h2>
+
+                    <p className="section-subtitle">
+
+                        Track premium property prices,
+                        growth rates, and investment
+                        opportunities in real time.
+
+                    </p>
+
+                </div>
+
+                {/* =========================================
+                   PREMIUM CHART CONTAINER
+                ========================================== */}
+
+                <div
+
+                    id="market-trends-chart"
+
+                    className="fade-in"
+
+                    style={{
+
+                        background:
+                            "var(--glass-bg)",
+
+                        border:
+                            "1px solid var(--glass-border)",
+
+                        backdropFilter:
+                            "blur(12px)",
+
+                        WebkitBackdropFilter:
+                            "blur(12px)",
+
+                        borderRadius: "32px",
+
+                        padding: "50px 30px",
+
+                        boxShadow:
+                            "0 20px 60px var(--shadow-light)",
+
+                        overflowX: "auto"
+                    }}
+                >
+
+                    {/* =====================================
+                       CHART
+                    ====================================== */}
+
+                    <div
+
+                        className="market-trends"
+
+                        style={{
+
+                            display: "flex",
+
+                            alignItems: "flex-end",
+
+                            justifyContent: "space-between",
+
+                            gap: "24px",
+
+                            minHeight: "420px",
+
+                            minWidth: "800px"
+                        }}
+                    >
+
+                        {trends.map((t, i) => (
+
+                            <div
+
+                                key={i}
+
+                                className="trend-bar"
+
+                                style={{
+
+                                    flex: 1,
+
+                                    display: "flex",
+
+                                    flexDirection: "column",
+
+                                    alignItems: "center"
+                                }}
+                            >
+
+                                {/* PRICE */}
+
+                                <div
+
+                                    className="bar-value"
+
+                                    style={{
+
+                                        marginBottom: "14px",
+
+                                        fontWeight: "700",
+
+                                        color:
+                                            "var(--accent-mauve)",
+
+                                        fontSize: "1rem"
+                                    }}
+                                >
+
+                                    {t.price}
+
                                 </div>
-                            ))}
-                        </div>
+
+                                {/* BAR */}
+
+                                <div
+
+                                    style={{
+
+                                        width: "100%",
+
+                                        maxWidth: "75px",
+
+                                        height: "300px",
+
+                                        display: "flex",
+
+                                        alignItems: "flex-end"
+                                    }}
+                                >
+
+                                    <div
+
+                                        className={
+                                            animated
+                                                ? "animated"
+                                                : ""
+                                        }
+
+                                        style={{
+
+                                            width: "100%",
+
+                                            height:
+                                                animated
+                                                    ? `${t.value}%`
+                                                    : "0%",
+
+                                            borderRadius:
+                                                "22px 22px 10px 10px",
+
+                                            background:
+                                                "linear-gradient(to top, #FF0080, #FFD600)",
+
+                                            transition:
+                                                "height 1.5s cubic-bezier(0.22,1,0.36,1)",
+
+                                            position:
+                                                "relative",
+
+                                            boxShadow:
+                                                "0 10px 30px rgba(255,0,128,0.35)"
+                                        }}
+                                    >
+
+                                        {/* GLOW */}
+
+                                        <div
+                                            style={{
+
+                                                position:
+                                                    "absolute",
+
+                                                top: "-8px",
+
+                                                left: "50%",
+
+                                                transform:
+                                                    "translateX(-50%)",
+
+                                                width: "18px",
+
+                                                height: "18px",
+
+                                                borderRadius:
+                                                    "50%",
+
+                                                background:
+                                                    "#fff",
+
+                                                boxShadow:
+                                                    "0 0 25px rgba(255,255,255,0.9)"
+                                            }}
+                                        ></div>
+
+                                    </div>
+
+                                </div>
+
+                                {/* GROWTH */}
+
+                                <div
+
+                                    style={{
+
+                                        marginTop: "14px",
+
+                                        color: "#22c55e",
+
+                                        fontWeight: "600",
+
+                                        fontSize: "0.9rem"
+                                    }}
+                                >
+
+                                    {t.growth}
+
+                                </div>
+
+                                {/* MONTH */}
+
+                                <div
+
+                                    className="bar-label"
+
+                                    style={{
+
+                                        marginTop: "8px",
+
+                                        color:
+                                            "var(--text-light)",
+
+                                        fontWeight: "500",
+
+                                        fontSize: "0.95rem"
+                                    }}
+                                >
+
+                                    {t.month}
+
+                                </div>
+
+                            </div>
+                        ))}
+
                     </div>
-                </section>
-            );
-        };
 
-        // ===== AGENTS PAGE COMPONENT =====
-        const AgentsPage = () => {
-            const agents = [
-                {
-                    name: "Priya Sharma",
-                    title: "Senior Property Consultant",
-                    image: "https://picsum.photos/seed/agent1/300/300",
-                    bio: "With over 12 years of experience, Priya specializes in luxury properties and has helped hundreds of families find their dream homes.",
-                    phone: "+1 (555) 111-2222",
-                    email: "priya@harshitproperty.com"
-                },
-                {
-                    name: "Rahul Verma",
-                    title: "Investment Advisor",
-                    image: "https://picsum.photos/seed/agent2/300/300",
-                    bio: "Rahul is our go-to expert for property investments, helping clients build profitable real estate portfolios with strategic insights.",
-                    phone: "+1 (555) 333-4444",
-                    email: "rahul@harshitproperty.com"
-                },
-                {
-                    name: "Anjali Patel",
-                    title: "First-Time Buyer Specialist",
-                    image: "https://picsum.photos/seed/agent3/300/300",
-                    bio: "Anjali makes the home buying process seamless for first-time buyers, offering patient guidance and expert advice every step of the way.",
-                    phone: "+1 (555) 555-6666",
-                    email: "anjali@harshitproperty.com"
-                },
-                {
-                    name: "Vikram Singh",
-                    title: "Commercial Properties Expert",
-                    image: "https://picsum.photos/seed/agent4/300/300",
-                    bio: "Vikram brings extensive knowledge of commercial real estate, helping businesses find the perfect spaces to grow and thrive.",
-                    phone: "+1 (555) 777-8888",
-                    email: "vikram@harshitproperty.com"
-                }
-            ];
-
-            return (
-                <div className="page active" style={{ paddingTop: 'var(--header-height)' }}>
-                    <section className="about-hero">
-                        <div className="container">
-                            <h1 className="section-title fade-in">Our Expert Agents</h1>
-                            <p className="section-subtitle fade-in">Meet our team of dedicated professionals ready to assist you</p>
-                        </div>
-                    </section>
-
-                    <section style={{ padding: '60px 0 100px' }}>
-                        <div className="container">
-                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '30px' }}>
-                                {agents.map((agent, index) => (
-                                    <div key={index} className="agent-card fade-in">
-                                        <div className="agent-avatar">
-                                            <img src={agent.image} alt={agent.name} />
-                                        </div>
-                                        <h3 className="agent-name">{agent.name}</h3>
-                                        <div className="agent-title">{agent.title}</div>
-                                        <p className="agent-bio">{agent.bio}</p>
-                                        <div style={{ marginTop: '20px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                                            <a href={`tel:${agent.phone}`} style={{ color: 'var(--text-light)', fontSize: '0.9rem' }}>
-                                                <i className="fas fa-phone" style={{ marginRight: '8px', color: 'var(--primary)' }}></i>
-                                                {agent.phone}
-                                            </a>
-                                            <a href={`mailto:${agent.email}`} style={{ color: 'var(--text-light)', fontSize: '0.9rem' }}>
-                                                <i className="fas fa-envelope" style={{ marginRight: '8px', color: 'var(--primary)' }}></i>
-                                                {agent.email}
-                                            </a>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    </section>
                 </div>
-            );
-        };
 
-        // ===== NEIGHBORHOODS PAGE COMPONENT =====
+            </div>
+
+        </section>
+    );
+};
+
+
+// ===== NEIGHBORHOODS PAGE COMPONENT =====
         const NeighborhoodsPage = () => {
-            const neighborhoods = [
-                {
-                    name: "Beverly Hills",
-                    image: "https://picsum.photos/seed/hood1/600/400",
-                    avgPrice: "$2.8M",
-                    description: "Luxury living at its finest with world-class shopping and dining.",
-                    properties: 45,
-                    rating: 4.9
-                },
-                {
-                    name: "Downtown Manhattan",
-                    image: "https://picsum.photos/seed/hood2/600/400",
-                    avgPrice: "$1.5M",
-                    description: "Urban lifestyle with skyscrapers, culture, and endless entertainment.",
-                    properties: 120,
-                    rating: 4.7
-                },
-                {
-                    name: "Austin Suburbs",
-                    image: "https://picsum.photos/seed/hood3/600/400",
-                    avgPrice: "$950K",
-                    description: "Family-friendly communities with great schools and parks.",
-                    properties: 80,
-                    rating: 4.8
-                },
-                {
-                    name: "Miami Beach",
-                    image: "https://picsum.photos/seed/hood4/600/400",
-                    avgPrice: "$3.2M",
-                    description: "Oceanfront living with vibrant nightlife and art deco charm.",
-                    properties: 65,
-                    rating: 4.9
-                },
-                {
-                    name: "Seattle Heights",
-                    image: "https://picsum.photos/seed/hood5/600/400",
-                    avgPrice: "$1.1M",
-                    description: "Tech hub neighborhoods with modern amenities and coffee culture.",
-                    properties: 95,
-                    rating: 4.6
-                },
-                {
-                    name: "Denver Metro",
-                    image: "https://picsum.photos/seed/hood6/600/400",
-                    avgPrice: "$1.3M",
-                    description: "Mountain views, outdoor recreation, and growing urban centers.",
-                    properties: 70,
-                    rating: 4.7
-                }
-            ];
 
-            return (
-                <div className="page active" style={{ paddingTop: 'var(--header-height)' }}>
-                    <section className="about-hero">
-                        <div className="container">
-                            <h1 className="section-title fade-in">Explore Neighborhoods</h1>
-                            <p className="section-subtitle fade-in">Discover the perfect neighborhood that matches your lifestyle</p>
-                        </div>
-                    </section>
+    const neighborhoods = [
 
-                    <section style={{ padding: '60px 0 100px' }}>
-                        <div className="container">
-                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))', gap: '30px' }}>
-                                {neighborhoods.map((hood, index) => (
-                                    <div key={index} className="neighborhood-card fade-in">
-                                        <img src={hood.image} alt={hood.name} className="neighborhood-image" />
-                                        <div className="neighborhood-overlay">
-                                            <h3 className="neighborhood-name">{hood.name}</h3>
-                                            <div className="neighborhood-price">Avg. Price: {hood.avgPrice}</div>
-                                            <p style={{ opacity: 0.9, fontSize: '0.9rem', margin: '8px 0' }}>{hood.description}</p>
-                                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                                <span style={{ fontSize: '0.9rem' }}>{hood.properties} Properties</span>
-                                                <span style={{ fontSize: '0.9rem' }}>
-                                                    <i className="fas fa-star" style={{ color: '#ffd700', marginRight: '4px' }}></i>
-                                                    {hood.rating}
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    </section>
+        {
+            name: "Palm Residency",
+            image:
+                "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=900&q=80",
+
+            avgPrice: "₹2.8Cr",
+
+            description:
+                "Luxury villas, private gardens, premium security, and peaceful surroundings for elite living.",
+
+            properties: 45,
+
+            rating: 4.9,
+
+            location: "Gurgaon"
+        },
+
+        {
+            name: "Skyline Heights",
+
+            image:
+                "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=900&q=80",
+
+            avgPrice: "₹1.5Cr",
+
+            description:
+                "Modern apartments with rooftop amenities, smart homes, and premium city lifestyle.",
+
+            properties: 120,
+
+            rating: 4.8,
+
+            location: "Mumbai"
+        },
+
+        {
+            name: "Green Valley Homes",
+
+            image:
+                "https://images.unsplash.com/photo-1600566752355-35792bedcfea?auto=format&fit=crop&w=900&q=80",
+
+            avgPrice: "₹95L",
+
+            description:
+                "Family-friendly community with parks, schools, jogging tracks, and eco-friendly spaces.",
+
+            properties: 80,
+
+            rating: 4.7,
+
+            location: "Bangalore"
+        },
+
+        {
+            name: "Ocean Pearl Residency",
+
+            image:
+                "https://images.unsplash.com/photo-1600047509782-20d39509f26d?auto=format&fit=crop&w=900&q=80",
+
+            avgPrice: "₹3.2Cr",
+
+            description:
+                "Beachside luxury apartments with infinity pools, sea views, and premium lifestyle facilities.",
+
+            properties: 65,
+
+            rating: 4.9,
+
+            location: "Goa"
+        },
+
+        {
+            name: "Royal Tech Park",
+
+            image:
+                "https://images.unsplash.com/photo-1600210492493-0946911123ea?auto=format&fit=crop&w=900&q=80",
+
+            avgPrice: "₹1.1Cr",
+
+            description:
+                "Smart homes near IT hubs featuring modern interiors and luxury clubhouse facilities.",
+
+            properties: 95,
+
+            rating: 4.6,
+
+            location: "Hyderabad"
+        },
+
+        {
+            name: "Hill View Estate",
+
+            image:
+                "https://images.unsplash.com/photo-1600573472550-8090b5e0745e?auto=format&fit=crop&w=900&q=80",
+
+            avgPrice: "₹1.3Cr",
+
+            description:
+                "Nature-inspired luxury homes with mountain views, fresh air, and peaceful surroundings.",
+
+            properties: 70,
+
+            rating: 4.8,
+
+            location: "Dehradun"
+        }
+    ];
+
+    return (
+
+        <div
+            className="page active"
+            style={{
+                paddingTop: "var(--header-height)"
+            }}
+        >
+
+            {/* =========================================
+               HERO SECTION
+            ========================================== */}
+
+            <section className="about-hero">
+
+                <div className="container">
+
+                    <div
+                        style={{
+                            textAlign: "center",
+                            maxWidth: "850px",
+                            margin: "0px"
+                        }}
+                    >
+
+
+                        <h1
+                            className="section-title fade-in"
+                            style={{
+                                marginTop: "0px"
+                            }}
+                        >
+                            Explore Luxury Neighborhoods
+                        </h1>
+
+                   
+
+                    </div>
+
                 </div>
-            );
-        };
 
-        // ===== BLOG PAGE COMPONENT =====
-        const BlogPage = () => {
-            const posts = [
-                {
-                    title: "2026 Real Estate Market Predictions",
-                    excerpt: "Discover what experts are forecasting for the real estate market in 2026, from interest rates to emerging neighborhoods.",
-                    image: "https://picsum.photos/seed/blog1/600/400",
-                    date: "May 1, 2026",
-                    category: "Market Trends"
-                },
-                {
-                    title: "First-Time Homebuyer's Complete Guide",
-                    excerpt: "Everything you need to know about buying your first home, from mortgage pre-approval to closing day.",
-                    image: "https://picsum.photos/seed/blog2/600/400",
-                    date: "April 25, 2026",
-                    category: "Buying Tips"
-                },
-                {
-                    title: "Top 10 Home Staging Tips That Sell",
-                    excerpt: "Learn how to stage your home to attract buyers and sell faster with these proven staging strategies.",
-                    image: "https://picsum.photos/seed/blog3/600/400",
-                    date: "April 18, 2026",
-                    category: "Selling"
-                },
-                {
-                    title: "Investment Properties: Building Wealth",
-                    excerpt: "How to build a profitable real estate investment portfolio with strategic property acquisitions.",
-                    image: "https://picsum.photos/seed/blog4/600/400",
-                    date: "April 10, 2026",
-                    category: "Investment"
-                },
-                {
-                    title: "Sustainable Homes: The Future of Living",
-                    excerpt: "Explore eco-friendly home features that save money and help the environment while increasing property value.",
-                    image: "https://picsum.photos/seed/blog5/600/400",
-                    date: "April 3, 2026",
-                    category: "Lifestyle"
-                },
-                {
-                    title: "Understanding Property Taxes in 2026",
-                    excerpt: "A comprehensive guide to property taxes, deductions, and how they impact your home buying decision.",
-                    image: "https://picsum.photos/seed/blog6/600/400",
-                    date: "March 28, 2026",
-                    category: "Finance"
-                }
-            ];
+            </section>
 
-            return (
-                <div className="page active" style={{ paddingTop: 'var(--header-height)' }}>
-                    <section className="about-hero">
-                        <div className="container">
-                            <h1 className="section-title fade-in">Real Estate Blog</h1>
-                            <p className="section-subtitle fade-in">Stay informed with the latest insights, tips, and trends in real estate</p>
-                        </div>
-                    </section>
+            {/* =========================================
+               NEIGHBORHOODS GRID
+            ========================================== */}
 
-                    <section style={{ padding: '60px 0 100px' }}>
-                        <div className="container">
-                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))', gap: '30px' }}>
-                                {posts.map((post, index) => (
-                                    <div key={index} className="blog-card fade-in">
-                                        <div className="blog-image">
-                                            <img src={post.image} alt={post.title} />
-                                        </div>
-                                        <div className="blog-content">
-                                            <div className="blog-date">
-                                                <i className="fas fa-calendar" style={{ marginRight: '6px' }}></i>
-                                                {post.date} | {post.category}
-                                            </div>
-                                            <h3 className="blog-title">{post.title}</h3>
-                                            <p className="blog-excerpt">{post.excerpt}</p>
-                                            <a href="#" className="btn btn-glass" style={{ padding: '8px 20px', fontSize: '0.9rem' }}>
-                                                Read More <i className="fas fa-arrow-right"></i>
-                                            </a>
-                                        </div>
+            <section
+                style={{
+                    padding: "20px 0 60px",
+                    position: "relative"
+                }}
+            >
+
+                <div className="bg-blur blur-1"></div>
+
+                <div className="bg-blur blur-2"></div>
+
+                <div className="container">
+
+                    <div
+
+                        style={{
+
+                            display: "grid",
+
+                            gridTemplateColumns:
+                                "repeat(auto-fill, minmax(360px, 1fr))",
+
+                            gap: "35px"
+                        }}
+                    >
+
+                        {neighborhoods.map((hood, index) => (
+
+                            <div
+
+                                key={index}
+
+                                className="neighborhood-card fade-in"
+
+                                style={{
+
+                                    position: "relative",
+
+                                    overflow: "hidden",
+
+                                    borderRadius: "28px",
+
+                                    height: "420px",
+
+                                    cursor: "pointer",
+
+                                    boxShadow:
+                                        "0 12px 40px var(--shadow-light)",
+
+                                    transition:
+                                        "all 0.45s ease"
+                                }}
+                            >
+
+                                {/* ==================================
+                                   IMAGE
+                                =================================== */}
+
+                                <img
+
+                                    src={hood.image}
+
+                                    alt={hood.name}
+
+                                    loading="lazy"
+
+                                    className="neighborhood-image"
+
+                                    style={{
+
+                                        width: "100%",
+
+                                        height: "100%",
+
+                                        objectFit: "cover",
+
+                                        transition:
+                                            "transform 0.7s ease"
+                                    }}
+                                />
+
+                                {/* ==================================
+                                   OVERLAY
+                                =================================== */}
+
+                                <div
+
+                                    className="neighborhood-overlay"
+
+                                    style={{
+
+                                        position: "absolute",
+
+                                        inset: "0",
+
+                                        background:
+                                            "linear-gradient(to top, rgba(0,0,0,0.88), rgba(0,0,0,0.2))",
+
+                                        display: "flex",
+
+                                        flexDirection: "column",
+
+                                        justifyContent: "flex-end",
+
+                                        padding: "30px"
+                                    }}
+                                >
+
+                                    {/* LOCATION */}
+
+                                    <div
+
+                                        style={{
+
+                                            display: "inline-flex",
+
+                                            alignItems: "center",
+
+                                            gap: "8px",
+
+                                            background:
+                                                "rgba(255,255,255,0.12)",
+
+                                            backdropFilter:
+                                                "blur(10px)",
+
+                                            width: "fit-content",
+
+                                            padding:
+                                                "8px 16px",
+
+                                            borderRadius:
+                                                "50px",
+
+                                            color: "white",
+
+                                            fontSize: "0.8rem",
+
+                                            marginBottom: "18px"
+                                        }}
+                                    >
+
+                                        <i
+                                            className="fas fa-location-dot"
+                                            style={{
+                                                color: "#FFD600"
+                                            }}
+                                        ></i>
+
+                                        {hood.location}
+
                                     </div>
-                                ))}
-                            </div>
-                        </div>
-                    </section>
-                </div>
-            );
-        };
 
-        // ===== PRO LISTINGS PAGE WITH WISHLIST =====
+                                    {/* NAME */}
+
+                                    <h3
+
+                                        className="neighborhood-name"
+
+                                        style={{
+
+                                            fontSize: "1.7rem",
+
+                                            color: "white",
+
+                                            marginBottom: "12px",
+
+                                            lineHeight: "1.3"
+                                        }}
+                                    >
+
+                                        {hood.name}
+
+                                    </h3>
+
+                                    {/* PRICE */}
+
+                                    <div
+
+                                        className="neighborhood-price"
+
+                                        style={{
+
+                                            color: "#FFD600",
+
+                                            fontWeight: "700",
+
+                                            fontSize: "1.15rem",
+
+                                            marginBottom: "14px"
+                                        }}
+                                    >
+
+                                        Starting From {hood.avgPrice}
+
+                                    </div>
+
+                                    {/* DESCRIPTION */}
+
+                                    <p
+
+                                        style={{
+
+                                            color:
+                                                "rgba(255,255,255,0.82)",
+
+                                            fontSize: "0.95rem",
+
+                                            lineHeight: "1.7",
+
+                                            marginBottom: "24px"
+                                        }}
+                                    >
+
+                                        {hood.description}
+
+                                    </p>
+
+                                    {/* BOTTOM INFO */}
+
+                                    <div
+
+                                        style={{
+
+                                            display: "flex",
+
+                                            justifyContent:
+                                                "space-between",
+
+                                            alignItems: "center",
+
+                                            borderTop:
+                                                "1px solid rgba(255,255,255,0.12)",
+
+                                            paddingTop: "18px"
+                                        }}
+                                    >
+
+                                        {/* PROPERTIES */}
+
+                                        <div
+                                            style={{
+                                                color:
+                                                    "rgba(255,255,255,0.85)",
+                                                fontSize: "0.92rem"
+                                            }}
+                                        >
+
+                                            <i
+                                                className="fas fa-building"
+                                                style={{
+                                                    marginRight: "8px",
+                                                    color:
+                                                        "#FFD600"
+                                                }}
+                                            ></i>
+
+                                            {hood.properties} Properties
+
+                                        </div>
+
+                                        {/* RATING */}
+
+                                        <div
+                                            style={{
+                                                color: "white",
+                                                fontWeight: "600",
+                                                fontSize: "0.95rem"
+                                            }}
+                                        >
+
+                                            <i
+                                                className="fas fa-star"
+                                                style={{
+                                                    color: "#FFD600",
+                                                    marginRight: "6px"
+                                                }}
+                                            ></i>
+
+                                            {hood.rating}
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        ))}
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+    );
+};
+
+
+// ===== BLOG PAGE COMPONENT =====
+    const BlogPage = () => {
+    const posts = [
+
+        {
+            title: "Luxury Villas Becoming the New Investment Trend",
+            excerpt:
+                "Modern luxury villas with smart home technology and private amenities are becoming the top choice for high-return real estate investments in metropolitan cities.",
+
+            image:
+                "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=900&q=80",
+
+            date: "May 2, 2026",
+
+            category: "Luxury Homes"
+        },
+
+        {
+            title: "Best Locations to Buy Property in 2026",
+            excerpt:
+                "Explore the fastest-growing residential areas with high appreciation rates, premium infrastructure, and excellent future investment opportunities.",
+
+            image:
+                "https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=900&q=80",
+
+            date: "April 28, 2026",
+
+            category: "Property Investment"
+        },
+
+        {
+            title: "Modern Interior Designs Increasing Property Value",
+            excerpt:
+                "Luxury interiors, open spaces, premium lighting, and minimalist architecture are helping homeowners significantly increase resale value.",
+
+            image:
+                "https://images.unsplash.com/photo-1600607687644-c7171b42498f?auto=format&fit=crop&w=900&q=80",
+
+            date: "April 21, 2026",
+
+            category: "Interior Design"
+        },
+
+        {
+            title: "Smart Homes Are Dominating Real Estate Market",
+            excerpt:
+                "Properties equipped with smart security systems, automation, and energy-saving features are attracting modern premium buyers rapidly.",
+
+            image:
+                "https://images.unsplash.com/photo-1600210492493-0946911123ea?auto=format&fit=crop&w=900&q=80",
+
+            date: "April 14, 2026",
+
+            category: "Smart Homes"
+        },
+
+        {
+            title: "Top Luxury Apartments Buyers Are Looking For",
+            excerpt:
+                "From rooftop lounges to infinity pools and wellness spaces, premium apartment buyers now expect lifestyle-focused amenities.",
+
+            image:
+                "https://images.unsplash.com/photo-1600047509782-20d39509f26d?auto=format&fit=crop&w=900&q=80",
+
+            date: "April 7, 2026",
+
+            category: "Apartments"
+        },
+
+        {
+            title: "Why Real Estate Remains the Safest Investment",
+            excerpt:
+                "Despite market fluctuations, real estate continues to provide stable long-term returns, passive income opportunities, and wealth growth.",
+
+            image:
+                "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=900&q=80",
+
+            date: "March 30, 2026",
+
+            category: "Investment"
+        }
+    ];
+
+    return (
+
+        <div
+            className="page active"
+            style={{
+                paddingTop: "var(--header-height)"
+            }}
+        >
+
+            {/* =========================================
+               HERO SECTION
+            ========================================== */}
+
+            <section className="about-hero">
+
+                <div className="container">
+
+                    <div
+                        style={{
+                            textAlign: "center",
+                            maxWidth: "800px",
+                            margin: "0 auto"
+                        }}
+                    >
+
+                        <span
+                            style={{
+                                color: "var(--primary)",
+                                fontWeight: "600",
+                                letterSpacing: "2px",
+                                textTransform: "uppercase",
+                                fontSize: "0.85rem"
+                            }}
+                        >
+                            Latest Insights
+                        </span>
+
+                        <h1
+                            className="section-title fade-in"
+                            style={{
+                                marginTop: "18px"
+                            }}
+                        >
+                            Real Estate News & Trends
+                        </h1>
+
+                        <p className="section-subtitle fade-in">
+
+                            Discover premium real estate
+                            insights, luxury property trends,
+                            smart investment strategies,
+                            and modern living inspirations.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            {/* =========================================
+               BLOG GRID
+            ========================================== */}
+
+            <section
+                style={{
+                    padding: "20px 0 60px",
+                    position: "relative"
+                }}
+            >
+
+                <div className="bg-blur blur-1"></div>
+
+                <div className="bg-blur blur-2"></div>
+
+                <div className="container">
+
+                    <div
+
+                        style={{
+
+                            display: "grid",
+
+                            gridTemplateColumns:
+                                "repeat(auto-fill, minmax(360px, 1fr))",
+
+                            gap: "35px"
+                        }}
+                    >
+
+                        {posts.map((post, index) => (
+
+                            <div
+
+                                key={index}
+
+                                className="blog-card fade-in"
+
+                                style={{
+
+                                    overflow: "hidden",
+
+                                    borderRadius: "28px",
+
+                                    background:
+                                        "var(--bg-secondary)",
+
+                                    boxShadow:
+                                        "0 10px 40px var(--shadow-light)",
+
+                                    transition:
+                                        "all 0.4s ease",
+
+                                    border:
+                                        "1px solid var(--glass-border)"
+                                }}
+                            >
+
+                                {/* ==================================
+                                   IMAGE
+                                =================================== */}
+
+                                <div
+                                    className="blog-image"
+                                    style={{
+                                        position: "relative",
+                                        overflow: "hidden",
+                                        height: "260px"
+                                    }}
+                                >
+
+                                    <img
+
+                                        src={post.image}
+
+                                        alt={post.title}
+
+                                        loading="lazy"
+
+                                        style={{
+
+                                            width: "100%",
+
+                                            height: "100%",
+
+                                            objectFit: "cover",
+
+                                            transition:
+                                                "transform 0.6s ease"
+                                        }}
+                                    />
+
+                                    {/* Category */}
+
+                                    <div
+
+                                        style={{
+
+                                            position: "absolute",
+
+                                            top: "18px",
+
+                                            left: "18px",
+
+                                            background:
+                                                "rgba(255,255,255,0.18)",
+
+                                            backdropFilter:
+                                                "blur(10px)",
+
+                                            color: "white",
+
+                                            padding: "8px 16px",
+
+                                            borderRadius: "50px",
+
+                                            fontSize: "0.78rem",
+
+                                            fontWeight: "600",
+
+                                            letterSpacing: "1px",
+
+                                            textTransform: "uppercase"
+                                        }}
+                                    >
+
+                                        {post.category}
+
+                                    </div>
+
+                                </div>
+
+                                {/* ==================================
+                                   CONTENT
+                                =================================== */}
+
+                                <div
+                                    className="blog-content"
+                                    style={{
+                                        padding: "28px"
+                                    }}
+                                >
+
+                                    {/* DATE */}
+
+                                    <div
+
+                                        className="blog-date"
+
+                                        style={{
+
+                                            color:
+                                                "var(--text-light)",
+
+                                            marginBottom: "14px",
+
+                                            fontSize: "0.9rem"
+                                        }}
+                                    >
+
+                                        <i
+                                            className="fas fa-calendar-alt"
+                                            style={{
+                                                marginRight: "8px",
+                                                color:
+                                                    "var(--primary)"
+                                            }}
+                                        ></i>
+
+                                        {post.date}
+
+                                    </div>
+
+                                    {/* TITLE */}
+
+                                    <h3
+
+                                        className="blog-title"
+
+                                        style={{
+
+                                            fontSize: "1.35rem",
+
+                                            marginBottom: "16px",
+
+                                            lineHeight: "1.4",
+
+                                            color:
+                                                "var(--text-dark)"
+                                        }}
+                                    >
+
+                                        {post.title}
+
+                                    </h3>
+
+                                    {/* EXCERPT */}
+
+                                    <p
+
+                                        className="blog-excerpt"
+
+                                        style={{
+
+                                            color:
+                                                "var(--text-light)",
+
+                                            lineHeight: "1.8",
+
+                                            marginBottom: "24px",
+
+                                            fontSize: "0.96rem"
+                                        }}
+                                    >
+
+                                        {post.excerpt}
+
+                                    </p>
+
+                                    {/* BUTTON */}
+
+                                    <a
+
+                                        href="#"
+
+                                        className="btn btn-primary"
+
+                                        style={{
+
+                                            padding:
+                                                "12px 24px",
+
+                                            fontSize: "0.92rem",
+
+                                            borderRadius: "50px",
+
+                                            display:
+                                                "inline-flex",
+
+                                            alignItems:
+                                                "center",
+
+                                            gap: "10px"
+                                        }}
+                                    >
+
+                                        Read Article
+
+                                        <i className="fas fa-arrow-right"></i>
+
+                                    </a>
+
+                                </div>
+
+                            </div>
+                        ))}
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+    );
+};
+
+
+// ===== PRO LISTINGS PAGE WITH WISHLIST =====
         const ProListingsPage = () => {
             const [wishlist, setWishlist] = useState([]);
             const [showPremium, setShowPremium] = useState({});
@@ -3305,7 +4562,7 @@
                 {
                     id: 101,
                     title: "Ultra-Luxury Penthouse Sky Villa",
-                    price: "$12,500,000",
+                    price: "₹12,500,000",
                     location: "Beverly Hills, CA",
                     beds: 6,
                     baths: 7,
@@ -3320,7 +4577,7 @@
                 {
                     id: 102,
                     title: "Oceanfront Estate with Private Beach",
-                    price: "$18,750,000",
+                    price: "₹18,750,000",
                     location: "Malibu, CA",
                     beds: 8,
                     baths: 9,
@@ -3335,7 +4592,7 @@
                 {
                     id: 103,
                     title: "Historic Mansion Renovated",
-                    price: "$9,800,000",
+                    price: "₹9,800,000",
                     location: "Manhattan, NY",
                     beds: 7,
                     baths: 8,
@@ -3350,7 +4607,7 @@
                 {
                     id: 104,
                     title: "Mountain Retreat with Ski Access",
-                    price: "$7,200,000",
+                    price: "₹7,200,000",
                     location: "Aspen, CO",
                     beds: 5,
                     baths: 6,
@@ -3373,12 +4630,12 @@
                         </div>
                     </section>
 
-                    <section style={{ padding: '60px 0 100px' }}>
-                        <div className="container">
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: '40px' }}>
-                                {proProperties.map((property, index) => (
-                                    <div key={property.id} className="property-card fade-in" style={{ display: 'flex', flexDirection: 'row', overflow: 'hidden' }}>
-                                        <div style={{ flex: '1', position: 'relative', minHeight: '350px' }}>
+                        <section style={{ padding: '50px 0 60px' }}>
+                            <div className="container">
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '40px' }}>
+                                    {proProperties.map((property, index) => (
+                                    <div key={property.id} className="property-card fade-in pro-listing-card" style={{ display: 'flex', flexDirection: 'row', overflow: 'hidden' }}>
+                                        <div className="pro-image" style={{ flex: '1', position: 'relative', minHeight: '350px' }}>
                                             <img src={property.image} alt={property.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                                             <span className="property-badge pro-badge" style={{ position: 'absolute', top: '16px', left: '16px' }}>{property.badge}</span>
                                             <button 
@@ -3389,7 +4646,7 @@
                                                 <i className={wishlist.includes(property.id) ? 'fas fa-heart' : 'far fa-heart'}></i>
                                             </button>
                                         </div>
-                                        <div style={{ flex: '1', padding: '40px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                                        <div className="pro-content" style={{ flex: '1', padding: '40px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                                             <div className="property-price" style={{ fontSize: '2rem' }}>{property.price}</div>
                                             <h3 className="property-title" style={{ fontSize: '1.5rem' }}>{property.title}</h3>
                                             <div className="property-location" style={{ marginBottom: '16px' }}>
@@ -3440,37 +4697,62 @@
             );
         };
 
-        // ===== WHATSAPP WIDGET COMPONENT =====
+
+// ===== AGENTS PAGE =====
+        const AgentsPage = () => {
+            const agents = [
+                { name: "Priya Sharma", title: "Senior Real Estate Agent", bio: "With over 10 years of experience, Priya specializes in luxury properties and has closed over 500 deals.", image: "https://i.pravatar.cc/300?img=1" },
+                { name: "Rahul Verma", title: "Property Consultant", bio: "Rahul is an expert in residential properties and helps first-time homebuyers find their perfect home.", image: "https://i.pravatar.cc/300?img=11" },
+                { name: "Anjali Patel", title: "Luxury Home Specialist", bio: "Anjali focuses on high-end luxury properties and provides personalized service to discerning clients.", image: "https://i.pravatar.cc/300?img=5" },
+                { name: "Vikram Singh", title: "Commercial Real Estate Agent", bio: "Vikram specializes in commercial properties and investment opportunities across the city.", image: "https://i.pravatar.cc/300?img=12" }
+            ];
+
+            return (
+                <div className="page active" style={{ paddingTop: 'var(--header-height)' }}>
+                    <section className="about-hero">
+                        <div className="container">
+                            <h1 className="section-title fade-in">Our Agents</h1>
+                            <p className="section-subtitle fade-in">Meet our team of experienced real estate professionals</p>
+                        </div>
+                    </section>
+                    <section style={{ padding: '60px 0' }}>
+                        <div className="container" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '30px' }}>
+                            {agents.map((agent, index) => (
+                                <div key={index} className="agent-card fade-in">
+                                    <div className="agent-avatar">
+                                        <img src={agent.image} alt={agent.name} loading="lazy" />
+                                    </div>
+                                    <h3 className="agent-name">{agent.name}</h3>
+                                    <p className="agent-title">{agent.title}</p>
+                                    <p className="agent-bio">{agent.bio}</p>
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+                </div>
+            );
+        };
+
+
+ // ===== WHATSAPP WIDGET COMPONENT =====
         const WhatsAppWidget = () => {
-            const [isOpen, setIsOpen] = useState(false);
+            const handleWhatsApp = () => {
+                window.open("https://wa.me/919760971378?text=Hi%20Harshit%20Property,%20I'm%20interested%20in%20finding%20my%20dream%20home.", "_blank");
+            };
 
             return (
                 <div className="whatsapp-widget">
-                    {isOpen && (
-                        <div className="whatsapp-popup">
-                            <p><i className="fab fa-whatsapp" style={{ color: '#25D366', marginRight: '6px' }}></i>
-                            Hi! 👋 Need help finding your dream home?</p>
-                            <a
-                                href="https://wa.me/15551234567?text=Hi%20Harshit%20Property,%20I'm%20interested%20in%20finding%20my%20dream%20home."
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="btn btn-primary"
-                                style={{ width: '100%', justifyContent: 'center', fontSize: '0.9rem', padding: '10px 20px' }}
-                            >
-                                <i className="fab fa-whatsapp"></i> Chat on WhatsApp
-                            </a>
-                        </div>
-                    )}
                     <button
                         className="whatsapp-btn"
-                        onClick={() => setIsOpen(!isOpen)}
+                        onClick={handleWhatsApp}
                         aria-label="Chat on WhatsApp"
                     >
-                        <i className={isOpen ? 'fas fa-times' : 'fab fa-whatsapp'}></i>
+                        <i className="fab fa-whatsapp"></i>
                     </button>
                 </div>
             );
         };
+
 
         const App = () => {
             const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -3484,6 +4766,24 @@
                 setTheme(newTheme);
                 document.documentElement.setAttribute('data-theme', newTheme);
             };
+
+            // Scroll to top on page change
+            useEffect(() => {
+                window.scrollTo(0, 0);
+            }, [currentPage]);
+
+            // Disable browser scroll restoration
+            useEffect(() => {
+                if ('scrollRestoration' in history) {
+                    history.scrollRestoration = 'manual';
+                }
+            }, []);
+
+            // Lock body scroll when menu is open
+            useEffect(() => {
+                document.body.style.overflow = isMenuOpen ? 'hidden' : '';
+                return () => { document.body.style.overflow = ''; };
+            }, [isMenuOpen]);
 
             // Scroll handler for back to top button
             useEffect(() => {
@@ -3570,16 +4870,54 @@
                         setCurrentPage={setCurrentPage}
                     />
 
+                    {/* Navigation Overlay */}
+                    <div className={`nav-overlay ${isMenuOpen ? 'active' : ''}`}>
+                        <div className="nav-overlay-content">
+                            <ul className="nav-links">
+                                {navItems.map(item => (
+                                    <li key={item.id}>
+                                        <a 
+                                            href="#" 
+                                            className={currentPage === item.id ? 'active' : ''}
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                window.scrollTo(0, 0);
+                                                setCurrentPage(item.id);
+                                                setIsMenuOpen(false);
+                                            }}
+                                        >
+                                            {item.label}
+                                        </a>
+                                    </li>
+                                ))}
+                            </ul>
+                            <div className="overlay-social">
+                                <a href="#" className="social-icon" aria-label="Facebook">
+                                    <i className="fab fa-facebook-f"></i>
+                                </a>
+                                <a href="#" className="social-icon" aria-label="Instagram">
+                                    <i className="fab fa-instagram"></i>
+                                </a>
+                                <a href="#" className="social-icon" aria-label="Twitter">
+                                    <i className="fab fa-twitter"></i>
+                                </a>
+                                <a href="#" className="social-icon" aria-label="LinkedIn">
+                                    <i className="fab fa-linkedin-in"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
                     {/* Home Page */}
                     {currentPage === 'home' && (
                         <div className="page active">
-                            <HeroSection />
+                            <HeroSection setCurrentPage={setCurrentPage} />
                             <DreamHomeQuiz />
                             <StatsSection />
                             <FeaturedProperties />
-                            <MarketTrends />
-                            <TestimonialCarousel />
                             <MasonryGallery />
+                            <MarketTrends />
+                            <TestimonialCarousel />                          
                             <FAQSection />
                             <ContactSection />
                             <NewsletterSection />
@@ -3616,7 +4954,7 @@
                         </div>
                     )}
 
-                    <Footer />
+                    <Footer setCurrentPage={setCurrentPage} />
 
                     {/* Back to Top Button */}
                     <button
@@ -3628,7 +4966,7 @@
                     </button>
 
                     {/* Sticky CTA Button */}
-                    <a href="#" className="sticky-cta" onClick={(e) => { e.preventDefault(); setCurrentPage('contact'); }}>
+                    <a href="#" className="sticky-cta" onClick={(e) => { e.preventDefault(); window.scrollTo(0, 0); setCurrentPage('contact'); }}>
                         <i className="fas fa-phone"></i>
                         <span>Schedule a Call</span>
                     </a>
@@ -3638,6 +4976,7 @@
                 </>
             );
         };
+
 
         // Render the React application
         ReactDOM.render(<App />, document.getElementById('root'));
