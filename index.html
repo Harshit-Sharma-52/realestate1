@@ -261,15 +261,10 @@
         }
 
         .logo {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--accent-mauve);
+            display: flex;
+            align-items: center;
             z-index: 1001;
-        }
-
-        .logo span {
-            color: var(--primary);
+            line-height: 1;
         }
 
         /* Hamburger Menu */
@@ -410,15 +405,6 @@
             background: linear-gradient(135deg, var(--bg-blush) 0%, var(--primary-light) 100%);
         }
 
-        .hero-canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-        }
-
         .hero-content {
             position: relative;
             z-index: 2;
@@ -474,13 +460,12 @@
         .masonry-grid {
             display: column;
             columns: 3;
-            column-gap: 24px;
-            padding: 0 24px;
+            column-gap: 30px;
         }
 
         .masonry-item {
             break-inside: avoid;
-            margin-bottom: 24px;
+            margin-bottom: 30px;
             border-radius: var(--border-radius);
             overflow: hidden;
             position: relative;
@@ -534,7 +519,7 @@
 
         .property-image {
             position: relative;
-            height: 250px;
+            height: 320px;
             overflow: hidden;
         }
 
@@ -562,7 +547,7 @@
         }
 
         .property-content {
-            padding: 24px;
+            padding: 30px;
         }
 
         .property-price {
@@ -644,7 +629,7 @@
         .testimonial-carousel {
             position: relative;
             overflow: hidden;
-            max-width: 800px;
+            max-width: 920px;
             margin: 0 auto;
         }
 
@@ -663,25 +648,25 @@
             backdrop-filter: blur(12px);
             border: 1px solid var(--glass-border);
             border-radius: var(--border-radius);
-            padding: 40px;
+            padding: 50px 45px;
             text-align: center;
         }
 
         .testimonial-avatar {
-            width: 80px;
-            height: 80px;
+            width: 90px;
+            height: 90px;
             border-radius: 50%;
-            margin: 0 auto 20px;
+            margin: 0 auto 24px;
             overflow: hidden;
             border: 3px solid var(--primary);
         }
 
         .testimonial-text {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             color: var(--text-dark);
             font-style: italic;
-            margin-bottom: 20px;
-            line-height: 1.8;
+            margin-bottom: 24px;
+            line-height: 1.9;
         }
 
         .testimonial-author {
@@ -1121,6 +1106,7 @@
         @media (max-width: 1024px) {
             .masonry-grid {
                 columns: 2;
+                column-gap: 24px;
             }
         }
 
@@ -1170,6 +1156,20 @@
 
             .masonry-grid {
                 columns: 1;
+                column-gap: 16px;
+            }
+            .masonry-item {
+                margin-bottom: 18px;
+            }
+            .pro-listing-card .pro-image {
+                min-height: 220px !important;
+            }
+
+            .property-image {
+                height: 250px;
+            }
+            .property-content {
+                padding: 20px;
             }
 
             .hero-title {
@@ -1205,16 +1205,17 @@
                 align-items: center;
             }
 
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-
             .contact-form {
                 padding: 24px;
             }
 
             .testimonial-card {
                 padding: 24px;
+            }
+
+            .logo svg {
+                width: 160px;
+                height: 36px;
             }
         }
 
@@ -1815,78 +1816,6 @@
     <script type="text/babel">
         const { useState, useEffect, useRef } = React;
 
-        // ===== PARTICLE CANVAS COMPONENT =====
-        const ParticleCanvas = () => {
-            const canvasRef = useRef(null);
-
-            useEffect(() => {
-                const canvas = canvasRef.current;
-                const ctx = canvas.getContext('2d');
-                let animationId;
-                let particles = [];
-
-                // Set canvas size
-                const resizeCanvas = () => {
-                    canvas.width = window.innerWidth;
-                    canvas.height = window.innerHeight;
-                };
-                resizeCanvas();
-                window.addEventListener('resize', resizeCanvas);
-
-                // Particle class
-                class Particle {
-                    constructor() {
-                        this.x = Math.random() * canvas.width;
-                        this.y = Math.random() * canvas.height;
-                        this.size = Math.random() * 3 + 1;
-                        this.speedX = Math.random() * 1 - 0.5;
-                        this.speedY = Math.random() * 1 - 0.5;
-                        this.opacity = Math.random() * 0.5 + 0.2;
-                    }
-
-                    update() {
-                        this.x += this.speedX;
-                        this.y += this.speedY;
-
-                        if (this.x > canvas.width) this.x = 0;
-                        if (this.x < 0) this.x = canvas.width;
-                        if (this.y > canvas.height) this.y = 0;
-                        if (this.y < 0) this.y = canvas.height;
-                    }
-
-                    draw() {
-                        ctx.fillStyle = `rgba(232, 160, 191, RS{this.opacity})`;
-                        ctx.beginPath();
-                        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                        ctx.fill();
-                    }
-                }
-
-                // Initialize particles
-                for (let i = 0; i < 80; i++) {
-                    particles.push(new Particle());
-                }
-
-                // Animation loop
-                const animate = () => {
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
-                    particles.forEach(particle => {
-                        particle.update();
-                        particle.draw();
-                    });
-                    animationId = requestAnimationFrame(animate);
-                };
-                animate();
-
-                return () => {
-                    cancelAnimationFrame(animationId);
-                    window.removeEventListener('resize', resizeCanvas);
-                };
-            }, []);
-
-            return <canvas ref={canvasRef} className="hero-canvas" />;
-        };
-
         // ===== HEADER COMPONENT =====
         const navItems = [
             { id: 'home', label: 'Home' },
@@ -1915,9 +1844,18 @@
                 <header className={`header ${scrolled ? 'scrolled' : ''}`}>
                     <div className="container">
                         <a href="#" className="logo" onClick={(e) => { e.preventDefault(); window.scrollTo(0, 0); setCurrentPage('home'); }}>
-                            Harshit <span>Property</span>
+                            <svg width="200" height="44" viewBox="0 0 200 44" style={{ display: 'block' }}>
+                                <rect x="2.5" y="14" width="28" height="28" rx="3.5" fill="var(--accent-mauve)" opacity="0.12"/>
+                                <path d="M8 30 L8 42 L25 42 L25 33 L17 33 L17 42" fill="var(--accent-mauve)"/>
+                                <polygon points="3.5,28 17,12 30,28" fill="var(--accent-mauve)"/>
+                                <text x="40" y="23" fontFamily="'Playfair Display', serif" fontSize="17" fontWeight="700" fill="var(--accent-mauve)">Harshit</text>
+                                <text x="40" y="39" fontFamily="'Playfair Display', serif" fontSize="17" fontWeight="700" fill="var(--primary)">Property</text>
+                            </svg>
                         </a>
 
+
+
+                        
                         <button 
                             className={`hamburger ${isMenuOpen ? 'active' : ''}`}
                             onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -1941,7 +1879,6 @@
         const HeroSection = ({ setCurrentPage }) => {
             return (
                 <section className="hero" id="home">
-                    <ParticleCanvas />
                     <div className="hero-content">
                         <h1 className="hero-title">
                             Find Your <span>Dream Home</span>
